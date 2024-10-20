@@ -1,5 +1,4 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { User, UserGuild } from '../models';
 import {getCommandUserGuild} from "../services/CommandUserGuildResolver";
 
 export const data = new SlashCommandBuilder()

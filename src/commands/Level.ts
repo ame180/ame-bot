@@ -1,6 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder} from "discord.js";
-import { User, UserGuild } from '../models';
-import {getCommandUserGuild} from "../services/CommandUserGuildResolver";
+import { getCommandUserGuild } from "../services/CommandUserGuildResolver";
 
 const levelOneXp = 100;
 

@@ -2,14 +2,14 @@ import { connection, DataTypes } from '../services/DatabaseProvider.js';
 import getUserModel from './User'
 import getUserGuildModel from './UserGuild'
 
-const User = getUserModel(connection, DataTypes);
-const UserGuild = getUserGuildModel(connection, DataTypes);
+const UserModel = getUserModel(connection, DataTypes);
+const UserGuildModel = getUserGuildModel(connection, DataTypes);
 
-User.hasOne(UserGuild, { foreignKey: 'userId' });
-UserGuild.belongsTo(User, { foreignKey: 'userId' });
+UserModel.hasOne(UserGuildModel, { foreignKey: 'userId' });
+UserGuildModel.belongsTo(UserModel, { foreignKey: 'userId' });
 
 export {
-    User,
-    UserGuild,
+    UserModel,
+    UserGuildModel,
     connection
 }
