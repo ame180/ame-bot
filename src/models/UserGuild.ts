@@ -16,6 +16,9 @@ export default (connection, DataTypes) => {
         'lastMessageAt': {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
-        }
+        },
+        'userDisplayName': {
+            type: DataTypes.STRING
+        },
     });
 }
