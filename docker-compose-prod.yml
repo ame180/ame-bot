@@ -1,0 +1,9 @@
+services:
+  node:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile-prod
+    volumes:
+      - ./db.sqlite:/app/db.sqlite
+    working_dir: /app
+    command: node dist/index.js
