@@ -1,5 +1,6 @@
 #!/bin/sh
 
 yarn install
+yarn build
 
-node src/index.js
+tail -F /dev/null
