@@ -1,5 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { User, UserGuild } from '../models';
+import {getCommandUserGuild} from "../services/CommandUserGuildResolver";
 
 export const data = new SlashCommandBuilder()
     .setName("xp")
@@ -11,18 +12,15 @@ export const data = new SlashCommandBuilder()
     );
 
 export async function execute(interaction: CommandInteraction) {
-    const userGuild = await UserGuild.findOne({
-        where: {
-            externalId: interaction.guildId
-        },
-        include: {
-            model: User,
-            where: { externalId: interaction.user.id }
-        }
-    });
+    const [userGuild, targetUser] = await getCommandUserGuild(interaction);
+
     if (!userGuild || !userGuild.xp) {
-        await interaction.reply("You don't have any XP yet!");
-    } else {
-        await interaction.reply(`You have ${userGuild.xp} XP!`);
+        const message = targetUser ? `${targetUser.username} doesn't have any XP yet!` : "You don't have any XP yet!";
+        await interaction.reply(message);
+
+        return;
     }
+
+    const message = targetUser ? `${targetUser.username} has ${userGuild.xp} XP!` : `You have ${userGuild.xp} XP!`;
+    await interaction.reply(message);
 }
