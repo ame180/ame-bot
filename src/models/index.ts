@@ -1,6 +1,6 @@
-const { connection, DataTypes } = require('../services/DatabaseProvider.js');
-const getUserModel = require('./User.js')
-const getUserGuildModel = require('./UserGuild.js')
+import { connection, DataTypes } from '../services/DatabaseProvider.js';
+import getUserModel from './User'
+import getUserGuildModel from './UserGuild'
 
 const User = getUserModel(connection, DataTypes);
 const UserGuild = getUserGuildModel(connection, DataTypes);
@@ -8,7 +8,7 @@ const UserGuild = getUserGuildModel(connection, DataTypes);
 User.hasOne(UserGuild, { foreignKey: 'userId' });
 UserGuild.belongsTo(User, { foreignKey: 'userId' });
 
-module.exports = {
+export {
     User,
     UserGuild,
     connection

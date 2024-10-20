@@ -1,6 +1,6 @@
 require('dotenv').config();
 const token = process.env.DISCORD_TOKEN;
-const { client } = require('./services/ClientProvider');
-require('./models/index');
+import { client } from './services/ClientProvider';
+import './models/index';
 
 client.login(token)

@@ -1,5 +1,5 @@
-const path = require('node:path');
-const { Sequelize, DataTypes} = require('sequelize');
+import path from 'node:path';
+import { Sequelize, DataTypes } from 'sequelize';
 
 const connection = new Sequelize({
     dialect: 'sqlite',
@@ -14,9 +14,6 @@ connection
     })
     .catch((err) => {
         console.error("ERROR - Unable to connect to the database:", err)
-    })
+    });
 
-module.exports = {
-    connection,
-    DataTypes
-}
+export { connection, DataTypes };

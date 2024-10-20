@@ -1,4 +1,4 @@
-module.exports = (connection, DataTypes) => {
+export default (connection, DataTypes) => {
     return connection.define('UserGuild', {
         'id': {
             type: DataTypes.INTEGER,

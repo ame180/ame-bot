@@ -1,4 +1,4 @@
-const { connection } = require('./models/index');
+import { connection } from './models';
 
 connection.sync({ alter: true }).then(
     () => console.log('Database synced!')
