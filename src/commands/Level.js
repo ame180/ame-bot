@@ -26,7 +26,7 @@ module.exports = {
             while (xp >= xpNeeded) {
                 level++;
                 xp -= xpNeeded;
-                xpNeeded = 5 * Math.pow(level, 2) + levelOneXp;
+                xpNeeded = 5 * Math.pow(level, 2) + (50 * level) + levelOneXp;
             }
 
             await interaction.reply(`You are level ${level}! ${xp}/${xpNeeded} XP`);
