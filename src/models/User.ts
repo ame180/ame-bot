@@ -10,5 +10,14 @@ export default (connection, DataTypes) => {
             unique: true,
             allowNull: false
         },
+        'username': {
+            type: DataTypes.STRING,
+        },
+        'displayName': {
+            type: DataTypes.STRING,
+        },
+        'avatar': {
+            type: DataTypes.STRING,
+        }
     });
 }
