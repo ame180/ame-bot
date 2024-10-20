@@ -1,5 +1,6 @@
-import {bold, userMention, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
+import {bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import { UserGuildModel, UserModel } from "../models";
+import {calculateLevel} from "../services/LevelCalculator";
 
 export const data = new SlashCommandBuilder()
     .setName("leaderboard")
@@ -22,11 +23,11 @@ export async function execute(interaction: CommandInteraction) {
     let i = 1;
     for (const userGuild of userGuilds) {
         const user = await userGuild.getUser();
+        const displayName = userGuild.userDisplayName || user.displayName;
+        const { level } = calculateLevel(userGuild.xp);
 
-        const mention = userMention(user.externalId);
-        const fieldTitle = bold(`#${i++} ${mention}`);
-
-        const fieldValue = `Level: ${userGuild.level} | XP: ${userGuild.xp}`;
+        const fieldTitle = bold(`#${i++} ${displayName}`);
+        const fieldValue = `Level: ${level} | XP: ${userGuild.xp}`;
 
         // noinspection TypeScriptValidateTypes
         leaderboard.addFields({
