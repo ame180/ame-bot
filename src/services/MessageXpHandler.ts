@@ -7,19 +7,20 @@ const xpCooldown = 20;
 export async function handle(message) {
     if (message.author.bot) return;
 
-    const [user, userCreated] = await UserModel.findOrCreate({ where: { externalId: message.author.id } });
+    const [user] = await UserModel.findOrCreate({ where: { externalId: message.author.id } });
     user.username = message.author.username;
     user.displayName = message.author.displayName;
     user.avatar = message.author.avatarURL();
     await user.save();
 
-    const [userGuild, guildCreated] = await UserGuildModel.findOrCreate({
+    const [userGuild] = await UserGuildModel.findOrCreate({
         where: {
             externalId: message.guildId,
             userId: user.id
         }
     });
-    guildCreated && await userGuild.save();
+    userGuild.userDisplayName = message.member.displayName;
+    await userGuild.save();
 
     if (userGuild.lastMessageAt && ((new Date()).getSeconds() - userGuild.lastMessageAt.getSeconds()) < xpCooldown) return;
 
