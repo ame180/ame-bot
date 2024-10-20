@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "yarn build && node dist/index.js"
+    "dev": "yarn build && node dist/index.js",
+    "migrate": "sequelize-cli db:migrate",
+    "rollback": "sequelize-cli db:migrate:undo"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +15,8 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "mysql2": "^3.11.3",
-    "sequelize": "^6.37.4"
+    "sequelize": "^6.37.4",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
