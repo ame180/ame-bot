@@ -1,7 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder} from "discord.js";
 import { getCommandUserGuild } from "../services/CommandUserGuildResolver";
-
-const levelOneXp = 100;
+import {calculateLevel} from "../services/LevelCalculator";
 
 export const data = new SlashCommandBuilder()
     .setName("level")
@@ -22,17 +21,10 @@ export async function execute(interaction: CommandInteraction) {
         return;
     }
 
-    let level = 0;
-    let xp = userGuild.xp;
-    let xpNeeded = levelOneXp;
-    while (xp >= xpNeeded) {
-        level++;
-        xp -= xpNeeded;
-        xpNeeded = 5 * Math.pow(level, 2) + (50 * level) + levelOneXp;
-    }
+    const { level, xpLeft, xpNeeded } = calculateLevel(userGuild.xp);
 
     const message = targetUser
-        ? `${targetUser.username} is level ${level}! ${xp}/${xpNeeded} XP`
-        : `You are level ${level}! ${xp}/${xpNeeded} XP`;
+        ? `${targetUser.username} is level ${level}! ${xpLeft}/${xpNeeded} XP`
+        : `You are level ${level}! ${xpLeft}/${xpNeeded} XP`;
     await interaction.reply(message);
 }
