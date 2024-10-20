@@ -1,6 +1,5 @@
-require('dotenv').config();
-const token = process.env.DISCORD_TOKEN;
+import { DISCORD_TOKEN } from './config';
 import { client } from './services/ClientProvider';
 import './models/index';
 
-client.login(token)
+client.login(DISCORD_TOKEN)

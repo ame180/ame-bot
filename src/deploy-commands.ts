@@ -1,6 +1,5 @@
 import { REST, Routes } from 'discord.js';
-require('dotenv').config();
-const { DISCORD_TOKEN, DISCORD_CLIENT_ID } = process.env;
+import { DISCORD_TOKEN, DISCORD_CLIENT_ID } from './config';
 import { commands } from './commands';
 
 const commandsData = Object.values(commands).map((command) => command.data);
