@@ -8,7 +8,10 @@ export async function handle(message) {
     if (message.author.bot) return;
 
     const [user, userCreated] = await UserModel.findOrCreate({ where: { externalId: message.author.id } });
-    userCreated && await user.save();
+    user.username = message.author.username;
+    user.displayName = message.author.displayName;
+    user.avatar = message.author.avatarURL();
+    await user.save();
 
     const [userGuild, guildCreated] = await UserGuildModel.findOrCreate({
         where: {
