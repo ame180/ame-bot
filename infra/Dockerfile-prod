@@ -12,3 +12,4 @@ COPY . .
 COPY --from=build /app/dist ./dist
 
 RUN yarn install --prod
+RUN chmod +x infra/entrypoint-prod.sh

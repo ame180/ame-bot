@@ -6,8 +6,6 @@ git pull
 
 # Replace docker-compose.yml with the production version
 mv docker-compose-prod.yml docker-compose.yml
-mv infra/.dockerignore-prod .dockerignore
 
 # Restart the containers
-docker compose down
-docker compose up -d --force-recreate
+docker compose up -d --build --force-recreate
