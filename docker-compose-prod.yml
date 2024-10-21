@@ -4,8 +4,6 @@ services:
     build:
       context: .
       dockerfile: infra/Dockerfile-prod
-    volumes:
-      - ./db.sqlite:/app/db.sqlite
     working_dir: /app
     entrypoint: infra/entrypoint-prod.sh
     depends_on:
