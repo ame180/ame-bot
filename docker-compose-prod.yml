@@ -1,5 +1,6 @@
 services:
   node:
+    image: ghcr.io/ame180/amebot-node:latest
     build:
       context: .
       dockerfile: infra/Dockerfile-prod

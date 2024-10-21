@@ -10,5 +10,10 @@ git pull
 # Replace docker-compose.yml with the production version
 mv docker-compose-prod.yml docker-compose.yml
 
+# Fetch the latest version of the images
+source .env
+docker login ghcr.io -u ame180 -p $GITHUB_TOKEN
+docker compose pull
+
 # Restart the containers
 docker compose up -d --build --force-recreate
