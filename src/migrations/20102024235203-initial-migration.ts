@@ -2,16 +2,25 @@ import { DataTypes, QueryInterface } from "sequelize";
 
 const migration = {
     up: async (queryInterface: QueryInterface) => {
-        await queryInterface.createTable('users', {
+        await queryInterface.createTable('Users', {
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
             },
-            discordId: {
+            externalId: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true
+            },
+            username: {
+                type: DataTypes.STRING,
+            },
+            displayName: {
+                type: DataTypes.STRING,
+            },
+            avatar: {
+                type: DataTypes.STRING,
             },
             createdAt: {
                 type: DataTypes.DATE,
@@ -24,23 +33,34 @@ const migration = {
         });
 
         // noinspection TypeScriptValidateTypes
-        await queryInterface.createTable('user_guilds', {
+        await queryInterface.createTable('UserGuilds', {
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
             },
+            externalId: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
             userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'users',
+                    model: 'Users',
                     key: 'id'
                 }
             },
-            guildId: {
-                type: DataTypes.STRING,
-                allowNull: false
+            userDisplayName: {
+                type: DataTypes.STRING
+            },
+            xp: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
+            lastMessageAt: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW
             },
             createdAt: {
                 type: DataTypes.DATE,
@@ -52,13 +72,13 @@ const migration = {
             }
         });
 
-        return await queryInterface.addIndex('user_guilds', ['userId', 'guildId'], {
+        return await queryInterface.addIndex('UserGuilds', ['userId', 'externalId'], {
             unique: true
         });
     },
     down: async (queryInterface: QueryInterface) => {
-        await queryInterface.dropTable('user_guilds');
-        return await queryInterface.dropTable('users');
+        await queryInterface.dropTable('UserGuilds');
+        return await queryInterface.dropTable('Users');
     }
 }
 
