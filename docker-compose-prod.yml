@@ -22,7 +22,7 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
       interval: 5s
       timeout: 5s
-    ports:
+    expose:
       - "3306"
     volumes:
       - mysql:/var/lib/mysql
