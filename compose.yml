@@ -5,8 +5,22 @@ services:
     volumes:
       - ./:/app
     entrypoint: ./infra/entrypoint.sh
+    expose:
+      - "3000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+
+  nginx:
+    image: ghcr.io/ame180/amebot-nginx:latest
+    build:
+      context: .
+      dockerfile: infra/Dockerfile-nginx-prod
+    depends_on:
+      - node
+    ports:
+      - "80:80"
+
   mysql:
     image: mysql:8.4-oraclelinux8
     environment:
@@ -14,6 +28,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
     ports:
       - "3306:3306"
     volumes:
