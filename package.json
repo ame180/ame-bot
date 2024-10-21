@@ -15,6 +15,7 @@
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4",
     "sequelize-cli": "^6.6.2"
@@ -23,6 +24,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
     "@stylistic/eslint-plugin-js": "^2.9.0",
+    "@types/express": "^5.0.0",
     "eslint": "^9.13.0",
     "typescript": "^5.6.3"
   }
