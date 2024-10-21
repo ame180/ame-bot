@@ -2,6 +2,6 @@
 
 yarn install
 yarn build
-yarn sequelize-cli db:migrate
+yarn migrate
 
-node dist/index.js
+yarn start
