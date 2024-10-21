@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop the containers to avoid unpredictable behavior
+docker compose down
+
 # Pull the latest changes from the repository
 git reset --hard HEAD
 git pull
