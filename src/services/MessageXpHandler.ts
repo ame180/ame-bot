@@ -22,7 +22,7 @@ export async function handle(message) {
     userGuild.userDisplayName = message.member.displayName;
     await userGuild.save();
 
-    if (userGuild.lastMessageAt && ((new Date()).getSeconds() - userGuild.lastMessageAt.getSeconds()) < xpCooldown) return;
+    if (userGuild.lastMessageAt && ((new Date()).getTime() - userGuild.lastMessageAt.getTime()) / 1000 < xpCooldown) return;
 
     const xpGain = Math.floor(Math.random() * (maxXpPerMessage - minXpPerMessage + 1) + minXpPerMessage);
     userGuild.xp += xpGain;
