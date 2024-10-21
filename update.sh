@@ -16,4 +16,4 @@ docker login ghcr.io -u ame180 -p $GITHUB_TOKEN
 docker compose pull
 
 # Restart the containers
-docker compose up -d --build --force-recreate
+docker compose up -d --force-recreate
