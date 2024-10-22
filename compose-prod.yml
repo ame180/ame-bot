@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: infra/Dockerfile-prod
     entrypoint: infra/entrypoint-prod.sh
+    volumes:
+      - ./config.json:/app/config.json
     expose:
       - "3000"
     depends_on:
@@ -17,6 +19,8 @@ services:
       context: .
       dockerfile: infra/Dockerfile-prod
     command: ["node", "dist/bot.js"]
+    volumes:
+      - ./config.json:/app/config.json
     depends_on:
       - node
 

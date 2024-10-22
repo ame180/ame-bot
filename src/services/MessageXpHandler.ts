@@ -1,8 +1,5 @@
 import { UserModel, UserGuildModel } from '../models';
-
-const minXpPerMessage = 5;
-const maxXpPerMessage = 8;
-const xpCooldown = 20;
+import { xpCooldown, maxXpPerMessage, minXpPerMessage } from '../config';
 
 export async function handle(message) {
     if (message.author.bot) return;
