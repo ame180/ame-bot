@@ -27,10 +27,7 @@ services:
       - node
 
   nginx:
-    image: ghcr.io/ame180/amebot-nginx:latest
-    build:
-      context: .
-      dockerfile: infra/Dockerfile-nginx-prod
+    image: ghcr.io/ame180/nginx-node:latest
     environment:
       - VIRTUAL_HOST=${APP_HOST}
       - LETSENCRYPT_HOST=${APP_HOST}
@@ -40,10 +37,7 @@ services:
       - "80"
 
   mysql:
-    image: ghcr.io/ame180/amebot-mysql:latest
-    build:
-      context: .
-      dockerfile: infra/Dockerfile-mysql-prod
+    image: ghcr.io/ame180/mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
