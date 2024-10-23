@@ -3,5 +3,4 @@
 source .env
 
 docker compose -f compose-prod.yml build
-docker push ghcr.io/ame180/amebot-node:latest
-docker push ghcr.io/ame180/amebot-nginx:latest
+docker compose -f compose-prod.yml push
