@@ -17,7 +17,10 @@ export async function execute(interaction: CommandInteraction) {
             ['xp', 'DESC']
         ],
         limit: 5,
-        include: UserModel
+        include: UserModel,
+        where: {
+            externalId: interaction.guildId
+        }
     });
 
     let i = 1;
