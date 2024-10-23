@@ -12,26 +12,19 @@ services:
         condition: service_healthy
 
   nginx:
-    image: ghcr.io/ame180/amebot-nginx:latest
-    build:
-      context: .
-      dockerfile: infra/Dockerfile-nginx-prod
+    image: ghcr.io/ame180/nginx-node:latest
     depends_on:
       - node
     ports:
       - "80:80"
 
   mysql:
-    image: mysql:8.4-oraclelinux8
+    image: ghcr.io/ame180/nginx:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
-      interval: 5s
-      timeout: 5s
     ports:
       - "3306:3306"
     volumes:
