@@ -27,7 +27,8 @@ export default {
                         displayName: user.displayName,
                         userGuildDisplayName: userGuild.userDisplayName,
                         xp: userGuild.xp,
-                        level: calculateLevel(userGuild.xp).level
+                        level: calculateLevel(userGuild.xp).level,
+                        messageCount: userGuild.messageCount
                     }
                 }
             )

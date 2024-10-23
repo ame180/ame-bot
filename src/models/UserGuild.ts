@@ -13,6 +13,10 @@ export default (connection, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
+        'messageCount': {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
         'lastMessageAt': {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
