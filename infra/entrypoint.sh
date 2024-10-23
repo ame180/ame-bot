@@ -4,4 +4,4 @@ yarn install
 yarn build
 yarn migrate
 
-yarn start
+tail -f /dev/null
