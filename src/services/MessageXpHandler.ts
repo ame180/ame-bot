@@ -17,6 +17,7 @@ export async function handle(message) {
         }
     });
     userGuild.userDisplayName = message.member.displayName;
+    userGuild.messageCount++;
     await userGuild.save();
 
     if (userGuild.lastMessageAt && ((new Date()).getTime() - userGuild.lastMessageAt.getTime()) / 1000 < xpCooldown) return;
