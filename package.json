@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "dev": "yarn build && yarn start",
     "bot": "node dist/bot.js",
     "start": "node dist/index.js",
