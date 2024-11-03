@@ -19,7 +19,7 @@ services:
       - "80:80"
 
   mysql:
-    image: ghcr.io/ame180/nginx:latest
+    image: ghcr.io/ame180/mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
