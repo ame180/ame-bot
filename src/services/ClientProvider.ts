@@ -4,7 +4,8 @@ import { events } from "../events";
 
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
 ]});
 
 for (const event of events) {
