@@ -1,7 +1,9 @@
 FROM node:22 as build
 WORKDIR /app
 
-COPY . .
+COPY tsconfig.json package.json yarn.lock ./
+COPY config.dist.json ./config.json
+COPY src ./src
 RUN yarn install && yarn build
 
 FROM node:22 as prod
