@@ -1,5 +1,5 @@
 import { Events } from "discord.js";
-import { commands } from "../commands";
+import { commands } from "../modules";
 
 export const name = Events.InteractionCreate;
 export async function execute(interaction) {

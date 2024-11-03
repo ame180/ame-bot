@@ -1,6 +1,6 @@
 import { REST, Routes } from 'discord.js';
 import { DISCORD_TOKEN, DISCORD_CLIENT_ID } from './config';
-import { commands } from './commands';
+import { commands } from './modules';
 
 const commandsData = Object.values(commands).map((command) => command.data);
 const count = commandsData.length;

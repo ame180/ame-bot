@@ -1,5 +1,4 @@
 import {Client, GatewayIntentBits} from 'discord.js';
-import { commands } from "../commands";
 import { events } from "../events";
 
 const client = new Client({ intents: [
@@ -28,4 +27,4 @@ for (const event of events) {
     }
 }
 
-export { client, commands };
+export { client };

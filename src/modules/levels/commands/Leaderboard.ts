@@ -1,6 +1,6 @@
 import {bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
-import { UserGuildModel, UserModel } from "../models";
-import {calculateLevel} from "../services/LevelCalculator";
+import { UserGuildModel, UserModel } from "../../../models";
+import {calculateLevel} from "../../../services/LevelCalculator";
 
 export const data = new SlashCommandBuilder()
     .setName("leaderboard")

@@ -1,6 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder} from "discord.js";
-import { getCommandUserGuild } from "../services/CommandUserGuildResolver";
-import {calculateLevel} from "../services/LevelCalculator";
+import { getCommandUserGuild } from "../../../services/CommandUserGuildResolver";
+import {calculateLevel} from "../../../services/LevelCalculator";
 
 export const data = new SlashCommandBuilder()
     .setName("level")
