@@ -1,9 +1,11 @@
-import { handle as handleXp } from '../services/MessageXpHandler.js';
-import { handle as handleReactions } from '../services/MessageReactionsHandler.js';
-import {Events} from "discord.js";
+import { Events } from "discord.js";
+import { eventHandlers } from "../modules";
 
 export const name = Events.MessageCreate;
+
 export async function execute(message) {
-    await handleXp(message);
-    await handleReactions(message);
+    for (const handler of eventHandlers) {
+        if (!handler.eventName || handler.eventName !== name) continue;
+        await handler.handle(message);
+    }
 }

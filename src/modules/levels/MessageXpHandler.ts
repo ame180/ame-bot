@@ -1,5 +1,8 @@
-import { UserModel, UserGuildModel } from '../models';
-import { xpCooldown, maxXpPerMessage, minXpPerMessage } from '../config';
+import { UserModel, UserGuildModel } from '../../models';
+import { xpCooldown, maxXpPerMessage, minXpPerMessage } from '../../config';
+import { Events } from "discord.js";
+
+export const eventName = Events.MessageCreate;
 
 export async function handle(message) {
     if (message.author.bot) return;

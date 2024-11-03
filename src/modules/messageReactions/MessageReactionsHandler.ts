@@ -1,4 +1,5 @@
-import { GuildConfigModel } from "../models";
+import { GuildConfigModel } from "../../models";
+import { Events } from "discord.js";
 
 export const MessageReactionConfigName = 'messageReactions';
 
@@ -10,6 +11,8 @@ export type MessageReactionConfigRules = {
 export type MessageReactionConfig = {
     rules: MessageReactionConfigRules[]
 }
+
+export const eventName = Events.MessageCreate;
 
 export async function handle(message) {
     if (message.author.bot) return;
