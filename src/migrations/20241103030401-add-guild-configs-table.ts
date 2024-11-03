@@ -20,6 +20,14 @@ const migration = {
                 type: DataTypes.JSON,
                 allowNull: false
             },
+            createdAt: {
+                type: DataTypes.DATE,
+                allowNull: false
+            },
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: false
+            }
         });
 
         return await queryInterface.addIndex('GuildConfigs', ['guildId', 'name'], {
