@@ -1,11 +1,17 @@
 import { Events } from "discord.js";
-import { commands } from "../modules";
+import { globalCommands } from "../modules";
+import {getGuildCommands} from "../modules/GuildCommandsResolver";
 
 export const name = Events.InteractionCreate;
 export async function execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
 
-    const command = commands[interaction.commandName as keyof typeof commands];
+    const commands = {
+        ...globalCommands,
+        ...getGuildCommands(interaction.guildId),
+    };
+
+    const command = commands[interaction.commandName];
 
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);

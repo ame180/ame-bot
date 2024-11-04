@@ -2,9 +2,12 @@ import * as main from './main';
 import * as levels from './levels';
 import * as messageReaction from './messageReactions';
 
-export const commands = {
+export const globalCommands = {
     ...main.commands,
-    ...levels.commands,
+}
+
+export const guildCommands = {
+    levelCommands: levels.commands
 }
 
 export const eventHandlers = [
