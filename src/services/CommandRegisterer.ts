@@ -1,7 +1,8 @@
 import { globalCommands } from "../modules";
 import { REST, Routes } from "discord.js";
 import { DISCORD_API_VERSION, DISCORD_CLIENT_ID, DISCORD_TOKEN } from "../config";
-import {getGuildCommands} from "../modules/GuildCommandsResolver";
+import { getGuildCommands } from "../modules/GuildCommandsResolver";
+import { Command } from "../types/Command";
 
 
 export async function registerCommands(guildIds: string[]) {
@@ -23,8 +24,10 @@ export async function registerCommands(guildIds: string[]) {
     });
 
     for (const guildId of guildIds) {
-        const guildCommandsData = Object.values(getGuildCommands(guildId)).map((command) => command.data);
+        const guildCommands = await getGuildCommands(guildId);
+        const guildCommandsData = Object.values(guildCommands).map((command: Command) => command.data);
         const guildCommandsCount = guildCommandsData.length;
+
         console.log(`Started refreshing ${guildCommandsCount} guild (/) commands for ${guildId}.`);
 
         rest.put(

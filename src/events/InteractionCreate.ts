@@ -8,7 +8,7 @@ export async function execute(interaction) {
 
     const commands = {
         ...globalCommands,
-        ...getGuildCommands(interaction.guildId),
+        ...await getGuildCommands(interaction.guildId),
     };
 
     const command = commands[interaction.commandName];

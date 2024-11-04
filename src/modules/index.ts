@@ -7,7 +7,7 @@ export const globalCommands = {
 }
 
 export const guildCommands = {
-    levelCommands: levels.commands
+    [levels.name]: levels.commands
 }
 
 export const eventHandlers = [
