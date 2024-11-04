@@ -1,29 +1,11 @@
 import { guildCommands } from "./index";
-import { GuildConfigModel } from "../models";
-
-export const ModulesConfigName = 'modules';
-
-export type ModulesConfig = {
-    [key: string]: boolean
-}
+import { getEnabledGuildModules } from "./GuildModulesResolver";
 
 export async function getGuildCommands(guildId: string) {
-    const guildConfig = await GuildConfigModel.findOne({
-        where: {
-            guildId: guildId,
-            name: ModulesConfigName
-        }
-    });
-    if (!guildConfig) return {};
-
-    const config: ModulesConfig = guildConfig.value;
-
+    const modules = await getEnabledGuildModules(guildId);
     let commands = {};
-    let module: keyof ModulesConfig;
-    for (module in config)
+    for (const module of modules)
     {
-        if (!config[module]) continue;
-
         const moduleCommands = guildCommands[module];
         commands = {
             ...commands,
