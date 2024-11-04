@@ -1,11 +1,21 @@
 import { Events } from "discord.js";
-import { eventHandlers } from "../modules";
+import { globalEventHandlers, moduleEventHandlers } from "../modules";
+import { getEnabledGuildModules } from "../modules/GuildModulesResolver";
 
 export const name = Events.MessageCreate;
 
 export async function execute(message) {
-    for (const handler of eventHandlers) {
-        if (!handler.eventName || handler.eventName !== name) continue;
+    const enabledEventHandlers = globalEventHandlers;
+
+    const modules = await getEnabledGuildModules(message.guildId);
+    for (const module of modules)
+    {
+        enabledEventHandlers.push(...moduleEventHandlers[module]);
+    }
+
+    const currentEventHandlers = enabledEventHandlers.filter(handler => handler.eventName === name);
+
+    for (const handler of currentEventHandlers) {
         await handler.handle(message);
     }
 }

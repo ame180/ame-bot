@@ -10,7 +10,9 @@ export const guildCommands = {
     [levels.name]: levels.commands
 }
 
-export const eventHandlers = [
-    ...levels.eventHandlers,
-    ...messageReaction.eventHandlers
-];
+export const globalEventHandlers = []
+
+export const moduleEventHandlers = {
+    [levels.name]: levels.eventHandlers,
+    [messageReaction.name]: messageReaction.eventHandlers,
+};
