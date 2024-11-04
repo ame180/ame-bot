@@ -10,7 +10,11 @@ export async function execute(message) {
     const modules = await getEnabledGuildModules(message.guildId);
     for (const module of modules)
     {
-        enabledEventHandlers.push(...moduleEventHandlers[module]);
+        const currentModuleEventHandlers = moduleEventHandlers[module];
+
+        if (!currentModuleEventHandlers) continue;
+
+        enabledEventHandlers.push(...currentModuleEventHandlers);
     }
 
     const currentEventHandlers = enabledEventHandlers.filter(handler => handler.eventName === name);
