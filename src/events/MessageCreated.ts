@@ -5,7 +5,7 @@ import { getEnabledGuildModules } from "../modules/GuildModulesResolver";
 export const name = Events.MessageCreate;
 
 export async function execute(message) {
-    const enabledEventHandlers = globalEventHandlers;
+    const enabledEventHandlers = [...globalEventHandlers];
 
     const modules = await getEnabledGuildModules(message.guildId);
     for (const module of modules)
