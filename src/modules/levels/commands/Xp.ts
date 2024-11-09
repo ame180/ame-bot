@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import {getCommandUserGuild} from "../services/CommandUserGuildResolver";
+import {getCommandUserGuild} from "../../../services/CommandUserGuildResolver";
 
 export const data = new SlashCommandBuilder()
     .setName("xp")

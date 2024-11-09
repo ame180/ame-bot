@@ -1,6 +1,6 @@
 import {bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
-import { UserGuildModel, UserModel } from "../models";
-import {calculateLevel} from "../services/LevelCalculator";
+import { UserGuildModel, UserModel } from "../../../models";
+import {calculateLevel} from "../../../services/LevelCalculator";
 
 export const data = new SlashCommandBuilder()
     .setName("leaderboard")
@@ -17,7 +17,10 @@ export async function execute(interaction: CommandInteraction) {
             ['xp', 'DESC']
         ],
         limit: 5,
-        include: UserModel
+        include: UserModel,
+        where: {
+            externalId: interaction.guildId
+        }
     });
 
     let i = 1;

@@ -1,0 +1,5 @@
+{
+  "minXpPerMessage": 10,
+  "maxXpPerMessage": 20,
+  "xpCooldown": 30
+}

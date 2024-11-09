@@ -2,5 +2,6 @@
 
 yarn install
 yarn build
+yarn migrate
 
-tail -F /dev/null
+tail -f /dev/null

@@ -1,0 +1,52 @@
+services:
+  node:
+    image: ghcr.io/ame180/amebot-node:latest
+    build:
+      context: .
+      dockerfile: infra/Dockerfile-prod
+    entrypoint: ./entrypoint.sh
+    volumes:
+      - ./config.json:/app/config.json
+      - ./.env:/app/.env
+    expose:
+      - "3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  bot:
+    image: ghcr.io/ame180/amebot-node:latest
+    build:
+      context: .
+      dockerfile: infra/Dockerfile-prod
+    command: ["node", "dist/bot.js"]
+    volumes:
+      - ./config.json:/app/config.json
+      - ./.env:/app/.env
+    depends_on:
+      - node
+
+  nginx:
+    image: ghcr.io/ame180/nginx-node:latest
+    environment:
+      - VIRTUAL_HOST=${APP_HOST}
+      - LETSENCRYPT_HOST=${APP_HOST}
+    depends_on:
+      - node
+    expose:
+      - "80"
+
+  mysql:
+    image: ghcr.io/ame180/mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    expose:
+      - "3306"
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

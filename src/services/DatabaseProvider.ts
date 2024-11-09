@@ -1,11 +1,17 @@
-import path from 'node:path';
+import { MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD } from '../config';
 import { Sequelize, DataTypes } from 'sequelize';
 
-const connection = new Sequelize({
-    dialect: 'sqlite',
-    logging: false,
-    storage: path.join(__dirname, '../../db.sqlite')
-});
+const connection = new Sequelize(
+    MYSQL_DATABASE,
+    MYSQL_USER,
+    MYSQL_PASSWORD,
+    {
+        dialect: 'mysql',
+        host: 'mysql',
+        port: 3306,
+        logging: false
+    }
+);
 
 connection
     .authenticate()
