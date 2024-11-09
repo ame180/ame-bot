@@ -1,5 +1,8 @@
-import LeaderboardController from "./LeaderboardController";
+import express from "express";
+import api from "./api";
 
-export {
-  LeaderboardController,
-};
+const router = express.Router();
+
+router.use('/api', api);
+
+export default router;
