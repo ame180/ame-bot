@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import { UserModel, UserGuildModel } from '../../models';
+import { UserModel, UserGuildModel, connection } from '../../models';
 import { calculateLevel } from '../../services/LevelCalculator';
+import { name as LEVELS_MODULE_NAME } from "../../modules/levels";
+import { QueryTypes } from "sequelize";
 
 const router = express.Router();
 
@@ -36,6 +38,27 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
             }
         )
     ));
+}));
+
+router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => {
+    if (req.header('x-api-key') !== process.env.API_KEY) {
+        res.status(401).send('Unauthorized');
+        return;
+    }
+
+    const guildsModuleConfigs = await connection.query(
+        'SELECT DISTINCT guildId, value FROM GuildConfigs WHERE name = "modules"',
+        {
+            type: QueryTypes.SELECT
+        }
+    );
+    const guildsWithLevels = guildsModuleConfigs.filter(
+        (guildModuleConfig: any) => {
+            return guildModuleConfig.value[LEVELS_MODULE_NAME];
+        }
+    );
+
+    res.send(guildsWithLevels.map((guildsModuleConfig: any) => guildsModuleConfig.guildId));
 }));
 
 export default router;
