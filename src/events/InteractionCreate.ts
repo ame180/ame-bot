@@ -1,14 +1,26 @@
 import { Events } from "discord.js";
 import { globalCommands } from "../modules";
 import {getGuildCommands} from "../modules/GuildCommandsResolver";
+import {GuildModel} from "../models";
 
 export const name = Events.InteractionCreate;
 export async function execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
 
+    const guild = await GuildModel.findOne({
+        where: {
+            externalId: interaction.guild.id
+        }
+    });
+    if (!guild) {
+        console.error(`Guild ${interaction.guild.id} not found in database.`);
+        interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
+        return;
+    }
+
     const commands = {
         ...globalCommands,
-        ...await getGuildCommands(interaction.guildId),
+        ...await getGuildCommands(guild),
     };
 
     const command = commands[interaction.commandName];

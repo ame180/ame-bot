@@ -3,6 +3,7 @@ import { REST, Routes } from "discord.js";
 import { DISCORD_API_VERSION, DISCORD_CLIENT_ID, DISCORD_TOKEN } from "../config";
 import { getGuildCommands } from "../modules/GuildCommandsResolver";
 import { Command } from "../types/Command";
+import {GuildModel} from "../models";
 
 
 export async function registerCommands(guilds) {
@@ -10,7 +11,16 @@ export async function registerCommands(guilds) {
 
     registerGlobalCommands(rest).then();
     for (const guild of guilds) {
-        registerGuildCommands(rest, guild.id).then();
+        const guildModel = await GuildModel.findOne({
+            where: {
+                externalId: guild.id
+            }
+        });
+        if (!guildModel) {
+            console.error(`Guild ${guild.id} not found in database.`);
+            continue;
+        }
+        registerGuildCommands(rest, guildModel).then();
     }
 }
 
@@ -31,20 +41,20 @@ export async function registerGlobalCommands(rest: REST) {
     });
 }
 
-export async function registerGuildCommands(rest: REST, guildId: string) {
-    const guildCommands = await getGuildCommands(guildId);
+export async function registerGuildCommands(rest: REST, guild) {
+    const guildCommands = await getGuildCommands(guild);
     const guildCommandsData = Object.values(guildCommands).map((command: Command) => command.data);
     const guildCommandsCount = guildCommandsData.length;
 
-    console.log(`Started refreshing ${guildCommandsCount} guild (/) commands for ${guildId}.`);
+    console.log(`Started refreshing ${guildCommandsCount} guild (/) commands for ${guild.externalId}.`);
 
     rest.put(
-        Routes.applicationGuildCommands(DISCORD_CLIENT_ID, guildId),
+        Routes.applicationGuildCommands(DISCORD_CLIENT_ID, guild.externalId),
         {
             body: guildCommandsData
         },
     ).then(() => {
-        console.log(`Successfully reloaded ${guildCommandsCount} guild (/) commands for ${guildId}.`);
+        console.log(`Successfully reloaded ${guildCommandsCount} guild (/) commands for ${guild.externalId}.`);
     }).catch((error) => {
         console.error(error);
     });

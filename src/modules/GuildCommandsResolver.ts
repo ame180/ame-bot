@@ -1,9 +1,9 @@
 import { getGuildCommands as getModuleGuildCommands } from "./index";
 import { getEnabledGuildModules } from "./GuildModulesResolver";
 
-export async function getGuildCommands(guildId: string) {
-    const modules = await getEnabledGuildModules(guildId);
-    const allModuleCommands = await getModuleGuildCommands(guildId);
+export async function getGuildCommands(guild) {
+    const modules = await getEnabledGuildModules(guild);
+    const allModuleCommands = await getModuleGuildCommands(guild);
     let commands = {};
     for (const module of modules)
     {
