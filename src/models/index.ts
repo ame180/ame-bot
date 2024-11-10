@@ -11,8 +11,8 @@ const GuildConfigModel = getGuildConfigModel(connection);
 
 UserModel.hasMany(UserGuildModel, { foreignKey: 'userId' });
 UserGuildModel.belongsTo(UserModel, { foreignKey: 'userId' });
-GuildModel.hasMany(UserGuildModel, { foreignKey: 'guildId' });
-UserGuildModel.belongsTo(GuildModel, { foreignKey: 'guildId' });
+GuildModel.hasMany(GuildConfigModel, { foreignKey: 'guildId' });
+GuildConfigModel.belongsTo(GuildModel, { foreignKey: 'guildId' });
 
 export {
     UserModel,
