@@ -4,6 +4,7 @@ import { UserModel, UserGuildModel, connection } from '../../models';
 import { calculateLevel } from '../../services/LevelCalculator';
 import { name as LEVELS_MODULE_NAME } from "../../modules/levels";
 import { QueryTypes } from "sequelize";
+import slugify from "slugify";
 
 const router = express.Router();
 
@@ -46,19 +47,26 @@ router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => 
         return;
     }
 
-    const guildsModuleConfigs = await connection.query(
-        'SELECT DISTINCT guildId, value FROM GuildConfigs WHERE name = "modules"',
+    const guildsWithModules = await connection.query(
+        'SELECT DISTINCT g.externalId, g.name, g.updatedAt, value AS modules FROM Guilds g INNER JOIN GuildConfigs gc ON gc.guildId = g.id WHERE gc.name = "modules"',
         {
             type: QueryTypes.SELECT
         }
     );
-    const guildsWithLevels = guildsModuleConfigs.filter(
+    const guildsWithLevels = guildsWithModules.filter(
         (guildModuleConfig: any) => {
-            return guildModuleConfig.value[LEVELS_MODULE_NAME];
+            return guildModuleConfig.modules[LEVELS_MODULE_NAME];
         }
     );
 
-    res.send(guildsWithLevels.map((guildsModuleConfig: any) => guildsModuleConfig.guildId));
+    res.send(guildsWithLevels.map((guildsModuleConfig: any) => {
+        return {
+            id: guildsModuleConfig.externalId,
+            name: guildsModuleConfig.name,
+            slug: slugify(guildsModuleConfig.name, { lower: true }),
+            updatedAt: guildsModuleConfig.updatedAt
+        }
+    }));
 }));
 
 export default router;
