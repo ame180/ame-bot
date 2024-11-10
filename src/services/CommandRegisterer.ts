@@ -5,12 +5,12 @@ import { getGuildCommands } from "../modules/GuildCommandsResolver";
 import { Command } from "../types/Command";
 
 
-export async function registerCommands(guildIds: string[]) {
+export async function registerCommands(guilds) {
     const rest = new REST({version: DISCORD_API_VERSION}).setToken(DISCORD_TOKEN);
 
     registerGlobalCommands(rest).then();
-    for (const guildId of guildIds) {
-        registerGuildCommands(rest, guildId).then();
+    for (const guild of guilds) {
+        registerGuildCommands(rest, guild.id).then();
     }
 }
 
