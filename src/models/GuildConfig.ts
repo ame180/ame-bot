@@ -7,10 +7,6 @@ export default (connection) => {
             autoIncrement: true,
             primaryKey: true
         },
-        'guildId': {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         'name': {
             type: DataTypes.STRING,
             allowNull: false

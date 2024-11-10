@@ -1,5 +1,5 @@
-import {GuildConfigModel} from "../../models";
-import {EmbedBuilder, SlashCommandBuilder, userMention} from "discord.js";
+import {GuildConfigModel, GuildModel} from "../../models";
+import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import {getRandomElement} from "../../utils/random";
 
 export const TargetedGifsConfigName = 'targetedGifs';
@@ -45,8 +45,13 @@ async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifs
 export async function getCommands(guildId: string) {
     const guildConfig = await GuildConfigModel.findOne({
         where: {
-            guildId: guildId,
             name: TargetedGifsConfigName
+        },
+        include: {
+            model: GuildModel,
+            where: {
+                externalId: guildId
+            }
         }
     });
     if (!guildConfig) return {};

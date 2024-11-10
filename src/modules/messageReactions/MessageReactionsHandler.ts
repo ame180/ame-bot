@@ -1,4 +1,4 @@
-import { GuildConfigModel } from "../../models";
+import {GuildConfigModel, GuildModel} from "../../models";
 import { Events } from "discord.js";
 
 export const MessageReactionConfigName = 'messageReactions';
@@ -19,8 +19,13 @@ export async function handle(message) {
 
     const guildConfig = await GuildConfigModel.findOne({
         where: {
-            guildId: message.guild.id,
             name: MessageReactionConfigName
+        },
+        include: {
+            model: GuildModel,
+            where: {
+                externalId: message.guild.id
+            }
         }
     });
     if (!guildConfig) return;
