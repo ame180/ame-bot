@@ -35,22 +35,26 @@ const migration = {
             unique: true
         });
 
-        return await queryInterface.addColumn('GuildConfigs', 'guildId', {
+        await queryInterface.addColumn('GuildConfigs', 'guildId', {
             type: DataTypes.INTEGER,
+            after: 'id',
             allowNull: true,
             references: {
                 model: 'Guilds',
                 key: 'id'
             }
-        });
+        } as any);
     },
     down: async (queryInterface: QueryInterface) => {
-        await queryInterface.dropTable('Guilds');
+        await queryInterface.removeColumn('GuildConfigs', 'guildId');
+
         await queryInterface.removeIndex('GuildConfigs', ['externalId', 'name']);
         await queryInterface.renameColumn('GuildConfigs', 'externalId', 'guildId');
         await queryInterface.addIndex('GuildConfigs', ['guildId', 'name'], {
             unique: true
         });
+
+        await queryInterface.dropTable('Guilds');
     }
 }
 
