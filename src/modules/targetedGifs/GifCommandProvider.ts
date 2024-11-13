@@ -1,6 +1,6 @@
-import {GuildConfigModel, GuildModel} from "../../models";
-import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
-import {getRandomElement} from "../../utils/random";
+import { GuildConfigModel, GuildModel } from '../../models';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { getRandomElement } from '../../utils/random';
 
 export const TargetedGifsConfigName = 'targetedGifs';
 
@@ -37,8 +37,8 @@ async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifs
     }
 
     let response = commandConfig.response;
-    response = response.replace("${USER}", interaction.user.toString());
-    response = response.replace("${TARGET}", interaction.options.getUser(commandConfig.userName || 'user').toString());
+    response = response.replace('${USER}', interaction.user.toString());
+    response = response.replace('${TARGET}', interaction.options.getUser(commandConfig.userName || 'user').toString());
 
     const gifs = commandConfig.gifs;
     const gif = getRandomElement(gifs);
@@ -63,7 +63,7 @@ export async function getCommands(guild) {
     if (!guildConfig) return {};
 
     const config: TargetedGifsConfig = guildConfig.value;
-    let commands = {};
+    const commands = {};
     for (const commandConfig of config.gifCommands)
     {
         const commandData = new SlashCommandBuilder()

@@ -1,7 +1,7 @@
-import { Events } from "discord.js";
-import { globalCommands } from "../modules";
-import {getGuildCommands} from "../modules/GuildCommandsResolver";
-import {GuildModel} from "../models";
+import { Events } from 'discord.js';
+import { globalCommands } from '../modules';
+import { getGuildCommands } from '../modules/GuildCommandsResolver';
+import { GuildModel } from '../models';
 
 export const name = Events.InteractionCreate;
 export async function execute(interaction) {

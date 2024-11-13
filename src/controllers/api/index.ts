@@ -1,4 +1,4 @@
-import LeaderboardController from "./LeaderboardController";
+import LeaderboardController from './LeaderboardController';
 
 
 export default [

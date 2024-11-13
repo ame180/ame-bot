@@ -1,15 +1,15 @@
-import {bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
-import { UserGuildModel, UserModel } from "../../../models";
-import {calculateLevel} from "../../../services/LevelCalculator";
+import { bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { UserGuildModel, UserModel } from '../../../models';
+import { calculateLevel } from '../../../services/LevelCalculator';
 
 export const data = new SlashCommandBuilder()
-    .setName("leaderboard")
-    .setDescription("Returns the current TOP 5 leaderboard!");
+    .setName('leaderboard')
+    .setDescription('Returns the current TOP 5 leaderboard!');
 
 export async function execute(interaction: CommandInteraction) {
     const leaderboard = new EmbedBuilder()
-        .setTitle("🏆 Leaderboard 🏆")
-        .setDescription("The current TOP 5 users based on XP!")
+        .setTitle('🏆 Leaderboard 🏆')
+        .setDescription('The current TOP 5 users based on XP!')
         .setTimestamp();
 
     const userGuilds = await UserGuildModel.findAll({

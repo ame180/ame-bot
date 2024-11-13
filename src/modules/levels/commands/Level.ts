@@ -1,10 +1,10 @@
-import { CommandInteraction, SlashCommandBuilder} from "discord.js";
-import { getCommandUserGuild } from "../../../services/CommandUserGuildResolver";
-import {calculateLevel} from "../../../services/LevelCalculator";
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { getCommandUserGuild } from '../../../services/CommandUserGuildResolver';
+import { calculateLevel } from '../../../services/LevelCalculator';
 
 export const data = new SlashCommandBuilder()
-    .setName("level")
-    .setDescription("Replies with your current Level!")
+    .setName('level')
+    .setDescription('Replies with your current Level!')
     .addUserOption(option =>
         option.setName('user')
             .setDescription('The user to get Level for')

@@ -1,9 +1,9 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import {getCommandUserGuild} from "../../../services/CommandUserGuildResolver";
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { getCommandUserGuild } from '../../../services/CommandUserGuildResolver';
 
 export const data = new SlashCommandBuilder()
-    .setName("xp")
-    .setDescription("Replies with your current XP!")
+    .setName('xp')
+    .setDescription('Replies with your current XP!')
     .addUserOption(option =>
         option.setName('user')
             .setDescription('The user to get XP for')
