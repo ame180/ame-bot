@@ -16,10 +16,10 @@ const connection = new Sequelize(
 connection
     .authenticate()
     .then(() => {
-        console.info("INFO - Database connected.")
+        console.info('INFO - Database connected.')
     })
     .catch((err) => {
-        console.error("ERROR - Unable to connect to the database:", err)
+        console.error('ERROR - Unable to connect to the database:', err)
     });
 
 export { connection, DataTypes };

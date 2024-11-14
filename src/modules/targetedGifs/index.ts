@@ -1,4 +1,4 @@
-import {getCommands} from "./GifCommandProvider";
+import { getCommands } from './GifCommandProvider';
 
 
 export const name = 'targetedGifs';

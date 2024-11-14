@@ -1,6 +1,6 @@
 import { UserModel, UserGuildModel } from '../../models';
 import { xpCooldown, maxXpPerMessage, minXpPerMessage } from '../../config';
-import { Events } from "discord.js";
+import { Events } from 'discord.js';
 
 export const eventName = Events.MessageCreate;
 

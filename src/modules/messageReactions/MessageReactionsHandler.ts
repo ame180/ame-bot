@@ -1,5 +1,5 @@
-import {GuildConfigModel, GuildModel} from "../../models";
-import { Events } from "discord.js";
+import { GuildConfigModel, GuildModel } from '../../models';
+import { Events } from 'discord.js';
 
 export const MessageReactionConfigName = 'messageReactions';
 

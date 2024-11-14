@@ -1,13 +1,13 @@
-import { globalCommands } from "../modules";
-import { REST, Routes } from "discord.js";
-import { DISCORD_API_VERSION, DISCORD_CLIENT_ID, DISCORD_TOKEN } from "../config";
-import { getGuildCommands } from "../modules/GuildCommandsResolver";
-import { Command } from "../types/Command";
-import {GuildModel} from "../models";
+import { globalCommands } from '../modules';
+import { REST, Routes } from 'discord.js';
+import { DISCORD_API_VERSION, DISCORD_CLIENT_ID, DISCORD_TOKEN } from '../config';
+import { getGuildCommands } from '../modules/GuildCommandsResolver';
+import { Command } from '../types/Command';
+import { GuildModel } from '../models';
 
 
 export async function registerCommands(guilds) {
-    const rest = new REST({version: DISCORD_API_VERSION}).setToken(DISCORD_TOKEN);
+    const rest = new REST({ version: DISCORD_API_VERSION }).setToken(DISCORD_TOKEN);
 
     registerGlobalCommands(rest).then();
     for (const guild of guilds) {
