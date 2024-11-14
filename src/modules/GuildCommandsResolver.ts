@@ -1,5 +1,5 @@
-import { getGuildCommands as getModuleGuildCommands } from "./index";
-import { getEnabledGuildModules } from "./GuildModulesResolver";
+import { getGuildCommands as getModuleGuildCommands } from './index';
+import { getEnabledGuildModules } from './GuildModulesResolver';
 
 export async function getGuildCommands(guild) {
     const modules = await getEnabledGuildModules(guild);

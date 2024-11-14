@@ -1,5 +1,5 @@
-import { User as DiscordUser, CommandInteraction } from "discord.js";
-import { UserModel, UserGuildModel } from "../models";
+import { User as DiscordUser, CommandInteraction } from 'discord.js';
+import { UserModel, UserGuildModel } from '../models';
 
 /**
  * Returns the UserGuild for the user in the interaction and whether the targetUser

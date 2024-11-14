@@ -1,5 +1,4 @@
-import { Guild } from "discord.js";
-import {GuildModel} from "../models";
+import { GuildModel } from '../models';
 
 
 export async function updateGuilds(guilds) {

@@ -1,4 +1,4 @@
-import { DataTypes, QueryInterface } from "sequelize";
+import { DataTypes, QueryInterface } from 'sequelize';
 
 const migration = {
     up: async (queryInterface: QueryInterface) => {

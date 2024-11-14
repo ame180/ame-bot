@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { minXpPerMessage, maxXpPerMessage, xpCooldown } from '../config.json';
 
 export const {

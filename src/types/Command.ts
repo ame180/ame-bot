@@ -1,4 +1,4 @@
-import { CommandInteraction, SharedSlashCommand } from "discord.js";
+import { CommandInteraction, SharedSlashCommand } from 'discord.js';
 
 export type Command = {
     data: SharedSlashCommand,

@@ -1,8 +1,9 @@
-import {GuildConfigModel} from "../models";
+import { GuildConfigModel } from '../models';
 
 export const ModulesConfigName = 'modules';
 
-export type ModulesConfig = {
+export type ModulesConfig =
+{
     [key: string]: boolean
 }
 

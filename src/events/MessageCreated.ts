@@ -1,7 +1,7 @@
-import { Events } from "discord.js";
-import { globalEventHandlers, moduleEventHandlers } from "../modules";
-import { getEnabledGuildModules } from "../modules/GuildModulesResolver";
-import {GuildModel} from "../models";
+import { Events } from 'discord.js';
+import { globalEventHandlers, moduleEventHandlers } from '../modules';
+import { getEnabledGuildModules } from '../modules/GuildModulesResolver';
+import { GuildModel } from '../models';
 
 export const name = Events.MessageCreate;
 

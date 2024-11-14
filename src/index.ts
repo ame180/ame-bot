@@ -1,5 +1,5 @@
-import express from "express";
-import controllers from "./controllers";
+import express from 'express';
+import controllers from './controllers';
 
 const app = express();
 const port = 3000;

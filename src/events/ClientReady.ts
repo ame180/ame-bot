@@ -1,6 +1,6 @@
-import { Events } from "discord.js";
-import { registerCommands } from "../services/CommandRegisterer";
-import { updateGuilds } from "../services/GuildUpdater";
+import { Events } from 'discord.js';
+import { registerCommands } from '../services/CommandRegisterer';
+import { updateGuilds } from '../services/GuildUpdater';
 
 export const name = Events.ClientReady;
 export const once = true;
