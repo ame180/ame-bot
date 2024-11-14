@@ -1,13 +1,12 @@
-import express, { Request, Response } from "express";
-import asyncHandler from "express-async-handler";
+import express, { Request, Response } from 'express';
+import asyncHandler from 'express-async-handler';
 import { UserModel, UserGuildModel, connection } from '../../models';
 import { calculateLevel } from '../../services/LevelCalculator';
 import { name as LEVELS_MODULE_NAME } from '../../modules/levels';
 import { QueryTypes } from 'sequelize';
 import slugify from 'slugify';
 import { API_KEY } from '../../config';
-import { APP_HOST, APP_PROTOCOL } from "../../config";
-import { url } from "../../utils/urls";
+import { url } from '../../utils/urls';
 
 const router = express.Router();
 

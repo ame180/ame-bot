@@ -1,8 +1,8 @@
-import { APP_PROTOCOL, APP_HOST } from "../config";
+import { APP_PROTOCOL, APP_HOST } from '../config';
 
-export function url(path: string = ''): string {
+export function url(path = ''): string {
     let protocol = APP_PROTOCOL;
-    let host = APP_HOST;
+    const host = APP_HOST;
 
     if (protocol.endsWith('/')) {
         protocol = protocol.substring(0, protocol.length - 1);
