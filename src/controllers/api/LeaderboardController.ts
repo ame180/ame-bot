@@ -6,6 +6,7 @@ import { name as LEVELS_MODULE_NAME } from '../../modules/levels';
 import { QueryTypes } from 'sequelize';
 import slugify from 'slugify';
 import { API_KEY } from '../../config';
+import { url } from '../../utils/urls';
 
 const router = express.Router();
 
@@ -65,7 +66,8 @@ router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => 
             id: guildsModuleConfig.externalId,
             name: guildsModuleConfig.name,
             slug: slugify(guildsModuleConfig.name, { lower: true }),
-            updatedAt: guildsModuleConfig.updatedAt
+            updatedAt: guildsModuleConfig.updatedAt,
+            leaderboardUrl: url(`/api/leaderboard/${guildsModuleConfig.externalId}`)
         }
     }));
 }));
