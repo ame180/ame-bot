@@ -7,10 +7,10 @@ export const globalCommands = {
     ...main.commands,
 }
 
-export async function getGuildCommands(guildId: string) {
+export async function getGuildCommands(guild) {
     return {
         [levels.name]: levels.commands,
-        [targetedGifs.name]: await targetedGifs.getGuildCommands(guildId),
+        [targetedGifs.name]: await targetedGifs.getGuildCommands(guild),
     }
 }
 

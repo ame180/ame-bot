@@ -1,13 +1,21 @@
 import { Events } from "discord.js";
 import { globalEventHandlers, moduleEventHandlers } from "../modules";
 import { getEnabledGuildModules } from "../modules/GuildModulesResolver";
+import {GuildModel} from "../models";
 
 export const name = Events.MessageCreate;
 
 export async function execute(message) {
-    const enabledEventHandlers = globalEventHandlers;
+    const enabledEventHandlers = [...globalEventHandlers];
 
-    const modules = await getEnabledGuildModules(message.guildId);
+    const guild = await GuildModel.findOne({
+        where: {
+            externalId: message.guildId
+        }
+    });
+    if (!guild) return;
+
+    const modules = await getEnabledGuildModules(guild);
     for (const module of modules)
     {
         const currentModuleEventHandlers = moduleEventHandlers[module];

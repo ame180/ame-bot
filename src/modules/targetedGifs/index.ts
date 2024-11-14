@@ -3,6 +3,6 @@ import {getCommands} from "./GifCommandProvider";
 
 export const name = 'targetedGifs';
 
-export async function getGuildCommands(guildId: string) {
-    return await getCommands(guildId);
+export async function getGuildCommands(guild) {
+    return await getCommands(guild);
 }

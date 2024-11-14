@@ -1,18 +1,18 @@
 import { DataTypes } from 'sequelize';
 
 export default (connection) => {
-    return connection.define('GuildConfig', {
+    return connection.define('Guild', {
         'id': {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        'name': {
+        'externalId': {
             type: DataTypes.STRING,
             allowNull: false
         },
-        'value': {
-            type: DataTypes.JSON,
+        'name': {
+            type: DataTypes.STRING,
             allowNull: false
         }
     });

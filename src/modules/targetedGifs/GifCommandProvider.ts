@@ -1,5 +1,5 @@
-import {GuildConfigModel} from "../../models";
-import {EmbedBuilder, SlashCommandBuilder, userMention} from "discord.js";
+import {GuildConfigModel, GuildModel} from "../../models";
+import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import {getRandomElement} from "../../utils/random";
 
 export const TargetedGifsConfigName = 'targetedGifs';
@@ -18,7 +18,18 @@ export type TargetedGifsConfig = {
 }
 
 async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifsConfigCommandConfigs) {
-    const commands = await getCommands(interaction.guildId);
+    const guild = await GuildModel.findOne({
+        where: {
+            externalId: interaction.guild.id
+        }
+    });
+    if (!guild) {
+        console.error(`Guild ${interaction.guild.id} not found in database.`);
+        interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
+        return;
+    }
+
+    const commands = await getCommands(guild);
     const command = commands[interaction.commandName];
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);
@@ -42,12 +53,12 @@ async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifs
     })
 }
 
-export async function getCommands(guildId: string) {
+export async function getCommands(guild) {
     const guildConfig = await GuildConfigModel.findOne({
         where: {
-            guildId: guildId,
+            guildId: guild.id,
             name: TargetedGifsConfigName
-        }
+        },
     });
     if (!guildConfig) return {};
 
