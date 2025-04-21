@@ -1,6 +1,7 @@
 import { Events } from 'discord.js';
 import { registerCommands } from '../services/CommandRegisterer';
 import { updateGuilds } from '../services/GuildUpdater';
+import { startReminderService } from '../services/ReminderService';
 
 export const name = Events.ClientReady;
 export const once = true;
@@ -18,4 +19,6 @@ export async function execute(client) {
     await updateGuilds(guilds);
 
     registerCommands(guilds).then();
+
+    startReminderService();
 }
