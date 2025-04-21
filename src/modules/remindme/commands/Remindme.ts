@@ -1,4 +1,3 @@
-// filepath: /home/ame/Projects/ame-bot/src/modules/remindme/commands/Remindme.ts
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { ReminderModel, UserModel, GuildModel } from '../../../models';
 
@@ -10,7 +9,7 @@ export const data = new SlashCommandBuilder()
             .setDescription('Number of minutes until the reminder')
             .setRequired(true)
             .setMinValue(1)
-            .setMaxValue(10080) // Max 1 week (7 days * 24 hours * 60 minutes)
+            .setMaxValue(60 * 24 * 7)
     )
     .addStringOption(option =>
         option.setName('message')

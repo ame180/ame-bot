@@ -1,4 +1,3 @@
-// filepath: /home/ame/Projects/ame-bot/src/migrations/20250419000001-add-reminders-table.ts
 import { DataTypes, QueryInterface } from 'sequelize';
 
 const migration = {

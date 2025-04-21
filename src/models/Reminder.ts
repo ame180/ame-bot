@@ -1,4 +1,3 @@
-// filepath: /home/ame/Projects/ame-bot/src/models/Reminder.ts
 export default (connection, DataTypes) => {
     return connection.define('Reminder', {
         'id': {
