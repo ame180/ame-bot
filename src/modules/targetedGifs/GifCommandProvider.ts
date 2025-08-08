@@ -67,12 +67,12 @@ export async function getCommands(guild) {
     for (const commandConfig of config.gifCommands)
     {
         const commandData = new SlashCommandBuilder()
-                .setName(commandConfig.name)
-                .setDescription(commandConfig.description || commandConfig.name)
-                .addUserOption(option =>
-                    option.setName(commandConfig.userName || 'user')
-                        .setDescription(commandConfig.description || `Select a user to ${commandConfig.name}`)
-                        .setRequired(true))
+            .setName(commandConfig.name)
+            .setDescription(commandConfig.description || commandConfig.name)
+            .addUserOption(option =>
+                option.setName(commandConfig.userName || 'user')
+                    .setDescription(commandConfig.description || `Select a user to ${commandConfig.name}`)
+                    .setRequired(true))
         commands[commandConfig.name] = {
             data: commandData,
             execute: (interaction) => handleTargetedGifCommand(interaction, commandConfig)

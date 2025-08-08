@@ -9,7 +9,7 @@ import { GuildModel } from '../models';
 export async function registerCommands(guilds) {
     const rest = new REST({ version: DISCORD_API_VERSION }).setToken(DISCORD_TOKEN);
 
-    registerGlobalCommands(rest).then();
+    void registerGlobalCommands(rest);
     for (const guild of guilds) {
         const guildModel = await GuildModel.findOne({
             where: {
@@ -20,7 +20,7 @@ export async function registerCommands(guilds) {
             console.error(`Guild ${guild.id} not found in database.`);
             continue;
         }
-        registerGuildCommands(rest, guildModel).then();
+        void registerGuildCommands(rest, guildModel);
     }
 }
 

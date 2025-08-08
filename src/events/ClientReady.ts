@@ -18,7 +18,7 @@ export async function execute(client) {
     // Update guilds before attempting to register commands for them
     await updateGuilds(guilds);
 
-    registerCommands(guilds).then();
+    void registerCommands(guilds);
 
     startReminderService();
 }
