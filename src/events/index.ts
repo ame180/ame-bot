@@ -1,6 +1,8 @@
 import * as ClientReady from './ClientReady';
 import * as InteractionCreate from './InteractionCreate';
 import * as MessageCreated from './MessageCreated';
+import * as MessageReactionAdd from './MessageReactionAdd';
+import * as MessageReactionRemove from './MessageReactionRemove';
 
 export type Event = {
     name: string,
@@ -11,5 +13,7 @@ export type Event = {
 export const events = [
     ClientReady,
     InteractionCreate,
-    MessageCreated
+    MessageCreated,
+    MessageReactionAdd,
+    MessageReactionRemove
 ] as Event[];
