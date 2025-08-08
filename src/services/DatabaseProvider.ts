@@ -9,7 +9,14 @@ const connection = new Sequelize(
         dialect: 'mysql',
         host: 'mysql',
         port: 3306,
-        logging: false
+        logging: false,
+        define: {
+            charset: 'utf8mb4',
+            collate: 'utf8mb4_unicode_ci',
+        },
+        dialectOptions: {
+            charset: 'utf8mb4',
+        }
     }
 );
 
