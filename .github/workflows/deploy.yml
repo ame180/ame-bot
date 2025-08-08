@@ -11,11 +11,6 @@ on:
           - dev
           - prod
         default: dev
-      branch:
-        description: "Branch or tag to deploy (optional). Defaults to the current branch if empty."
-        type: string
-        required: false
-        default: ""
 
 permissions:
   contents: read
@@ -33,7 +28,7 @@ jobs:
       - name: Checkout (selected or current ref)
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch != '' && inputs.branch || github.ref_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -84,7 +79,7 @@ jobs:
           path: compose.deploy.yml
           retention-days: 1
 
-  deploy:
+  Deploy:
     name: Deploy to ${{ inputs.environment }}
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -102,10 +97,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "compose.deploy.yml"
-          target: "${{ secrets.SSH_PATH }}/compose.yml"
+          target: "${{ secrets.APP_PATH }}/"
           overwrite: true
 
-      - name: Pull & restart services over SSH
+      - name: SSH and Deploy
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -113,6 +108,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -euo pipefail
-            cd "${{ secrets.SSH_PATH }}"
+            cd "${{ secrets.APP_PATH }}"
+            mv -f compose.deploy.yml compose.yml
             docker compose pull
             docker compose up -d --force-recreate
