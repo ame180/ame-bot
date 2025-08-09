@@ -1,3 +1,4 @@
+import { Client } from 'discord.js';
 import * as reactionAdd from './handlers/ReactionAdd';
 import * as reactionRemove from './handlers/ReactionRemove';
 import { syncAllEnabledGuilds } from './ReactionRolesService';
@@ -9,6 +10,6 @@ export const eventHandlers = [
     reactionRemove
 ];
 
-export async function setup(client) {
+export async function setup(client: Client) {
     await syncAllEnabledGuilds(client);
 }

@@ -4,6 +4,7 @@ import * as messageReaction from './messageReactions';
 import * as targetedGifs from './targetedGifs';
 import * as remindme from './remindme';
 import * as reactionRoles from './reactionRoles';
+import type { Client } from 'discord.js';
 
 export const globalCommands = {
     ...main.commands,
@@ -25,8 +26,8 @@ export const moduleEventHandlers = {
     [reactionRoles.name]: reactionRoles.eventHandlers,
 };
 
-export async function runModuleSetups(client) {
-    const setups: { [key: string]: (client: any) => Promise<void> | void } = {
+export async function runModuleSetups(client: Client) {
+    const setups: { [key: string]: (client: Client) => Promise<void> | void } = {
         [remindme.name]: remindme.setup,
         [reactionRoles.name]: reactionRoles.setup,
     };

@@ -1,10 +1,11 @@
 import { ReminderModel } from '../../models';
+import type { Client } from 'discord.js';
 import { isGuildModuleEnabled } from '../GuildModulesResolver';
 import { name as remindmeModuleName } from './index';
 
 let reminderCheckInterval = null;
 
-export function startReminderService(client) {
+export function startReminderService(client: Client) {
     if (reminderCheckInterval) {
         return;
     }
@@ -22,7 +23,7 @@ export function stopReminderService() {
     }
 }
 
-async function checkReminders(client) {
+async function checkReminders(client: Client) {
     const now = new Date();
 
     // Find all reminders that are due and not completed

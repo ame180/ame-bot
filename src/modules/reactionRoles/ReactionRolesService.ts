@@ -1,5 +1,6 @@
 import { GuildConfigModel, GuildModel } from '../../models';
-import type { Message, Client } from 'discord.js';
+import type { Message, Client, Guild, GuildBasedChannel } from 'discord.js';
+import { TextChannel, NewsChannel, ThreadChannel } from 'discord.js';
 import { isGuildModuleEnabled } from '../GuildModulesResolver';
 
 export const ReactionRolesConfigName = 'reactionRoles';
@@ -17,7 +18,7 @@ export type ReactionRolesConfig = {
     panels: Panel[]
 }
 
-export async function syncAllEnabledGuilds(client: Client) {
+export async function syncAllEnabledGuilds(client: Client): Promise<void> {
     const guilds = client.guilds.cache.map(g => g.id);
     for (const guildId of guilds) {
         const guild = await GuildModel.findOne({ where: { externalId: guildId } });
@@ -28,7 +29,7 @@ export async function syncAllEnabledGuilds(client: Client) {
     }
 }
 
-export async function syncGuildPanels(client: Client, guild) {
+export async function syncGuildPanels(client: Client, guild: typeof GuildModel.prototype): Promise<void> {
     const guildConfig = await GuildConfigModel.findOne({
         where: { guildId: guild.id, name: ReactionRolesConfigName }
     });
@@ -39,26 +40,31 @@ export async function syncGuildPanels(client: Client, guild) {
 
     for (const panel of panels) {
         try {
-            const discordGuild = client.guilds.cache.get(guild.externalId);
+            const discordGuild: Guild | undefined = client.guilds.cache.get(guild.externalId);
             if (!discordGuild) continue;
-            const channel = discordGuild.channels.cache.get(panel.channelId);
+            const channel: GuildBasedChannel | undefined = discordGuild.channels.cache.get(panel.channelId);
+
             if (!channel) continue;
-            if (!channel.isTextBased()) continue;
+            if (!(
+                channel instanceof TextChannel
+                || channel instanceof NewsChannel
+                || channel instanceof ThreadChannel
+            )) {
+                continue;
+            }
 
 
             let message: Message | null = null;
             if (panel.messageId) {
                 try {
-                    const textChannel = channel as any; // channel.isTextBased() ensured
-                    message = await textChannel.messages?.fetch(panel.messageId as string) as Message;
+                    message = await channel.messages?.fetch(panel.messageId as string) as Message;
                 } catch {
                     message = null;
                 }
             }
 
             if (!message) {
-                const textChannel = channel as any; // channel.isTextBased() ensured
-                message = await textChannel.send(panel.content || '') as Message;
+                message = await channel.send(panel.content || '') as Message;
                 panel.messageId = message.id;
                 await persistConfigMessageId(guildConfig, panel.key, message.id);
             }
@@ -114,7 +120,11 @@ type GuildConfigRecord = {
     set?: (key: string, value: any) => void
 };
 
-async function persistConfigMessageId(guildConfig: GuildConfigRecord, panelKey: string, messageId: string) {
+async function persistConfigMessageId(
+    guildConfig: GuildConfigRecord,
+    panelKey: string,
+    messageId: string
+): Promise<void> {
     // Root cause: Sequelize did not detect changes to the nested JSON 'value' field, so .save() was a no-op.
     // Fix: Use .set('value', value) and .changed('value', true) to force Sequelize to persist the update.
     const value = guildConfig.value;
