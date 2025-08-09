@@ -7,6 +7,6 @@ export const commands = {
     remindme,
 }
 
-export async function setup() {
-    startReminderService();
+export async function setup(client) {
+    startReminderService(client);
 }

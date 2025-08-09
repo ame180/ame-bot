@@ -1,6 +1,5 @@
 import { GuildConfigModel, GuildModel } from '../../models';
-import type { Message } from 'discord.js';
-import { client } from '../../services/ClientProvider';
+import type { Message, Client } from 'discord.js';
 import { isGuildModuleEnabled } from '../GuildModulesResolver';
 
 export const ReactionRolesConfigName = 'reactionRoles';
@@ -18,18 +17,18 @@ export type ReactionRolesConfig = {
     panels: Panel[]
 }
 
-export async function syncAllEnabledGuilds() {
+export async function syncAllEnabledGuilds(client: Client) {
     const guilds = client.guilds.cache.map(g => g.id);
     for (const guildId of guilds) {
         const guild = await GuildModel.findOne({ where: { externalId: guildId } });
         if (!guild) continue;
         const enabled = await isGuildModuleEnabled(guild, 'reactionRoles');
         if (!enabled) continue;
-        await syncGuildPanels(guild);
+        await syncGuildPanels(client, guild);
     }
 }
 
-export async function syncGuildPanels(guild) {
+export async function syncGuildPanels(client: Client, guild) {
     const guildConfig = await GuildConfigModel.findOne({
         where: { guildId: guild.id, name: ReactionRolesConfigName }
     });

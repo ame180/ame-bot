@@ -9,6 +9,6 @@ export const eventHandlers = [
     reactionRemove
 ];
 
-export async function setup() {
-    await syncAllEnabledGuilds();
+export async function setup(client) {
+    await syncAllEnabledGuilds(client);
 }

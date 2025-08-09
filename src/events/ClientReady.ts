@@ -19,5 +19,5 @@ export async function execute(client) {
     await updateGuilds(guilds);
 
     void registerCommands(guilds);
-    void runModuleSetups();
+    void runModuleSetups(client);
 }

@@ -1,17 +1,16 @@
 import { ReminderModel } from '../../models';
-import { client } from '../../services/ClientProvider';
 import { isGuildModuleEnabled } from '../GuildModulesResolver';
 import { name as remindmeModuleName } from './index';
 
 let reminderCheckInterval = null;
 
-export function startReminderService() {
+export function startReminderService(client) {
     if (reminderCheckInterval) {
         return;
     }
 
     // Check for reminders every 10 seconds
-    reminderCheckInterval = setInterval(checkReminders, 10000);
+    reminderCheckInterval = setInterval(() => checkReminders(client), 10000);
     console.log('Reminder service started');
 }
 
@@ -23,7 +22,7 @@ export function stopReminderService() {
     }
 }
 
-async function checkReminders() {
+async function checkReminders(client) {
     const now = new Date();
 
     // Find all reminders that are due and not completed
