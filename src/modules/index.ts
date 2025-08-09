@@ -24,3 +24,19 @@ export const moduleEventHandlers = {
     [messageReaction.name]: messageReaction.eventHandlers,
     [reactionRoles.name]: reactionRoles.eventHandlers,
 };
+
+export async function runModuleSetups() {
+    const setups: { [key: string]: () => Promise<void> | void } = {
+        [remindme.name]: remindme.setup,
+        [reactionRoles.name]: reactionRoles.setup,
+    };
+
+    for (const [moduleName, fn] of Object.entries(setups)) {
+        try {
+            await fn();
+            console.log(`[modules] setup complete for ${moduleName}`);
+        } catch (err) {
+            console.error(`[modules] setup failed for ${moduleName}`, err);
+        }
+    }
+}

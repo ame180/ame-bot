@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { UserModel, UserGuildModel, connection } from '../../models';
-import { calculateLevel } from '../../services/LevelCalculator';
+import { calculateLevel } from '../../modules/levels/LevelCalculator';
 import { name as LEVELS_MODULE_NAME } from '../../modules/levels';
 import { QueryTypes } from 'sequelize';
 import slugify from 'slugify';

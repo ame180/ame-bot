@@ -1,7 +1,7 @@
-import { ReminderModel } from '../models';
-import { client } from './ClientProvider';
-import { isGuildModuleEnabled } from '../modules/GuildModulesResolver';
-import { name as remindmeModuleName } from '../modules/remindme';
+import { ReminderModel } from '../../models';
+import { client } from '../../services/ClientProvider';
+import { isGuildModuleEnabled } from '../GuildModulesResolver';
+import { name as remindmeModuleName } from './index';
 
 let reminderCheckInterval = null;
 
