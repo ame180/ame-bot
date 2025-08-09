@@ -9,7 +9,7 @@ export const data = new SlashCommandBuilder()
             .setDescription('Number of minutes until the reminder')
             .setRequired(true)
             .setMinValue(1)
-            .setMaxValue(60 * 24 * 7)
+            .setMaxValue(60 * 24 * 365)
     )
     .addStringOption(option =>
         option.setName('message')
