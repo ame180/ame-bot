@@ -52,18 +52,21 @@ async function checkReminders(client) {
                 // Mark as completed since the module is disabled
                 reminder.completed = true;
                 await reminder.save();
+
                 continue;
             }
 
             const guild = client.guilds.cache.get(reminder.Guild.externalId);
             if (!guild) {
                 console.error(`Guild ${reminder.Guild.externalId} not found for reminder ${reminder.id}`);
+
                 continue;
             }
 
             const channel = guild.channels.cache.get(reminder.channelId);
             if (!channel || !channel.isTextBased()) {
                 console.error(`Channel ${reminder.channelId} not found or not text-based for reminder ${reminder.id}`);
+
                 continue;
             }
 

@@ -78,6 +78,7 @@ const migration = {
     },
     down: async (queryInterface: QueryInterface) => {
         await queryInterface.dropTable('UserGuilds');
+
         return await queryInterface.dropTable('Users');
     }
 }

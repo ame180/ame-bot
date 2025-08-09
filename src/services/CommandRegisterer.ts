@@ -18,6 +18,7 @@ export async function registerCommands(guilds) {
         });
         if (!guildModel) {
             console.error(`Guild ${guild.id} not found in database.`);
+
             continue;
         }
         void registerGuildCommands(rest, guildModel);

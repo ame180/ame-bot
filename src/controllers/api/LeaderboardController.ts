@@ -28,6 +28,7 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
         userGuilds.map(
             async (userGuild: typeof UserGuildModel) => {
                 const user = await userGuild.getUser();
+
                 return {
                     id: user.externalId,
                     username: user.username,
@@ -46,6 +47,7 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
 router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => {
     if (req.header('x-api-key') !== config.API_KEY) {
         res.status(401).send('Unauthorized');
+
         return;
     }
 

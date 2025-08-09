@@ -91,9 +91,11 @@ export function normalizeEmoji(emojiOrString: EmojiLike): string {
         const mention = key.match(/^<a?:\w+:(\d+)>$/);
         if (mention) return mention[1];
         if (/^\d{10,}$/.test(key)) return key; // custom emoji id string
+
         return key; // unicode emoji
     }
     const { id, name } = emojiOrString;
+
     return id || name || '';
 }
 
@@ -101,6 +103,7 @@ export function toReactableEmoji(emojiKey: string): string | null {
     if (!emojiKey) return null;
     const key = emojiKey.trim();
     if (!key) return null;
+
     return key;
 }
 

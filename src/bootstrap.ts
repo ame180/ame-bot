@@ -6,5 +6,5 @@ export type AppContext = {
 };
 
 export function bootstrap(): AppContext {
-  return { config };
+    return { config };
 }

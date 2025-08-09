@@ -19,7 +19,14 @@ export default tseslint.config(
 			'@typescript-eslint/consistent-indexed-object-style': ['error', 'index-signature'],
 			'@typescript-eslint/no-explicit-any': 'warn', // TODO: Change to error when a fix is set up
 			'@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
-			'indent': ['error', 4, { 'SwitchCase': 1 }]
+			'indent': ['error', 4, { 'SwitchCase': 1 }],
+			'padding-line-between-statements': [
+				'error',
+				{ blankLine: 'always', prev: '*', next: 'return' },
+				{ blankLine: 'always', prev: '*', next: 'break' },
+				{ blankLine: 'always', prev: '*', next: 'continue' },
+				{ blankLine: 'always', prev: '*', next: 'throw' }
+			]
 		}
 	},
 	{

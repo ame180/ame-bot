@@ -33,6 +33,7 @@ export async function handle(reaction: MessageReaction | PartialMessageReaction,
         const roleId = direct || (fallbackKey ? panel.reactions[fallbackKey] : null);
         if (!roleId) {
             await reaction.users.remove(user.id).catch((err) => console.debug('ReactionRoles: prune user reaction failed', err));
+
             return;
         }
 
