@@ -1,5 +1,5 @@
 import { UserModel, UserGuildModel } from '../../models';
-import { xpCooldown, maxXpPerMessage, minXpPerMessage } from '../../config';
+import { config } from '../../config/configLoader';
 import { Events } from 'discord.js';
 
 export const eventName = Events.MessageCreate;
@@ -23,9 +23,10 @@ export async function handle(message) {
     userGuild.messageCount++;
     await userGuild.save();
 
-    if (userGuild.lastMessageAt && ((new Date()).getTime() - userGuild.lastMessageAt.getTime()) / 1000 < xpCooldown) return;
 
-    const xpGain = Math.floor(Math.random() * (maxXpPerMessage - minXpPerMessage + 1) + minXpPerMessage);
+    if (userGuild.lastMessageAt && ((new Date()).getTime() - userGuild.lastMessageAt.getTime()) / 1000 < config.xpCooldown) return;
+
+    const xpGain = Math.floor(Math.random() * (config.maxXpPerMessage - config.minXpPerMessage + 1) + config.minXpPerMessage);
     userGuild.xp += xpGain;
     userGuild.lastMessageAt = new Date();
 

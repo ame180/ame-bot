@@ -1,18 +1,14 @@
-import {
-    MYSQL_DATABASE,
-    MYSQL_USER,
-    MYSQL_PASSWORD
-} from './config';
+import { config } from './config/configLoader';
 
-const config = {
+const dbConfig = {
     prod: {
         dialect: 'mysql',
-        username: MYSQL_USER,
-        password: MYSQL_PASSWORD,
-        database: MYSQL_DATABASE,
+        username: config.MYSQL_USER,
+        password: config.MYSQL_PASSWORD,
+        database: config.MYSQL_DATABASE,
         host: 'mysql',
         port: 3306
     }
-}
+};
 
-module.exports = config;
+module.exports = dbConfig;

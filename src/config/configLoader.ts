@@ -12,8 +12,8 @@ const fileSchema = z.object({
 });
 
 const envSchema = z.object({
-  APP_HOST: z.string().optional(),
-  APP_PROTOCOL: z.string().optional(),
+  APP_HOST: z.string(),
+  APP_PROTOCOL: z.string(),
   DISCORD_API_VERSION: z.string().default('10'),
   DISCORD_TOKEN: z.string(),
   DISCORD_CLIENT_ID: z.string(),

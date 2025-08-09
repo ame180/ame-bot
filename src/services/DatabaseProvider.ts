@@ -1,10 +1,10 @@
-import { MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD } from '../config';
+import { config } from '../config/configLoader';
 import { Sequelize, DataTypes } from 'sequelize';
 
 const connection = new Sequelize(
-    MYSQL_DATABASE,
-    MYSQL_USER,
-    MYSQL_PASSWORD,
+    config.MYSQL_DATABASE,
+    config.MYSQL_USER,
+    config.MYSQL_PASSWORD,
     {
         dialect: 'mysql',
         host: 'mysql',

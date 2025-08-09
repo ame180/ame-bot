@@ -5,7 +5,7 @@ import { calculateLevel } from '../../modules/levels/LevelCalculator';
 import { name as LEVELS_MODULE_NAME } from '../../modules/levels';
 import { QueryTypes } from 'sequelize';
 import slugify from 'slugify';
-import { API_KEY } from '../../config';
+import { config } from '../../config/configLoader';
 import { url } from '../../utils/urls';
 
 const router = express.Router();
@@ -44,7 +44,7 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
 }));
 
 router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => {
-    if (req.header('x-api-key') !== API_KEY) {
+    if (req.header('x-api-key') !== config.API_KEY) {
         res.status(401).send('Unauthorized');
         return;
     }
