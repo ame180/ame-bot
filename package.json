@@ -9,7 +9,8 @@
     "bot": "node dist/bot.js",
     "start": "node dist/index.js",
     "migrate": "sequelize-cli db:migrate",
-    "rollback": "sequelize-cli db:migrate:undo"
+    "rollback": "sequelize-cli db:migrate:undo",
+    "lint": "eslint --fix"
   },
   "author": "",
   "license": "ISC",
