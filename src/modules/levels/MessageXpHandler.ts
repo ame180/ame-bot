@@ -48,7 +48,7 @@ export async function handle(message) {
 
         const configValue = guildConfig.value as LevelsConfig;
         const { roleId: newRoleId, allRoleIds } = resolveLevelRole(configValue, newLevel);
-        if (!newRoleId) return; // no configured role for this level
+        if (!newRoleId) return;
 
         if (!message.guild) return;
         const member = message.member || await message.guild.members.fetch(message.author.id).catch(() => null);
@@ -56,13 +56,26 @@ export async function handle(message) {
 
         const rolesToRemove = allRoleIds.filter(rid => rid !== newRoleId && member.roles.cache.has(rid));
         for (const rid of rolesToRemove) {
-            await member.roles.remove(rid).catch(err => console.debug(`[levels] failed to remove old level role ${rid}`, err));
+            await member.roles.remove(rid).catch((err) => {
+                console.debug(
+                    `[levels] failed to remove old level role ${rid} for user ${message.author.id} in guild ${message.guildId}`,
+                    err
+                );
+            });
         }
 
         if (!member.roles.cache.has(newRoleId)) {
-            await member.roles.add(newRoleId).catch(err => console.debug(`[levels] failed to add new level role ${newRoleId}`, err));
+            await member.roles.add(newRoleId).catch((err) => {
+                console.debug(
+                    `[levels] failed to add new level role ${newRoleId} for user ${member.id} (${member.user?.username}) in guild ${member.guild?.id} (${member.guild?.name})`,
+                    err
+                );
+            });
         }
     } catch (err) {
-        console.error('[levels] level role assignment error', err);
+        console.error(
+            `[levels] level role assignment error for user ${message.author?.id} in guild ${message.guildId}`,
+            err
+        );
     }
 }
