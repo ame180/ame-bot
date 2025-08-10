@@ -6,23 +6,31 @@ import { GuildModel } from '../models';
 export const name = Events.InteractionCreate;
 export async function execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
+    
+    let commands = { ...globalCommands };
+    if (interaction.guild) {
+        const guild = await GuildModel.findOne({
+            where: {
+                externalId: interaction.guild.id
+            }
+        });
+        
+        if (!guild) {
+            console.error(`Guild ${interaction.guild.id} not found in database.`);
+            try {
+                await interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
+            } catch (err) {
+                console.error('Failed to reply about unregistered guild:', err);
+            }
 
-    const guild = await GuildModel.findOne({
-        where: {
-            externalId: interaction.guild.id
+            return;
         }
-    });
-    if (!guild) {
-        console.error(`Guild ${interaction.guild.id} not found in database.`);
-        interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
-
-        return;
+        
+        commands = {
+            ...commands,
+            ...await getGuildCommands(guild),
+        };
     }
-
-    const commands = {
-        ...globalCommands,
-        ...await getGuildCommands(guild),
-    };
 
     const command = commands[interaction.commandName];
 
