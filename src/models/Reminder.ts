@@ -20,6 +20,10 @@ export default (connection, DataTypes) => {
         'completed': {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        'sendAsDM': {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         }
     });
 }

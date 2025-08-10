@@ -77,7 +77,20 @@ async function checkReminders(client: Client) {
                 message += ` "${reminder.message}"`;
             }
 
-            await channel.send(message);
+            let delivered = false;
+            if (reminder.sendAsDM) {
+                try {
+                    const user = await client.users.fetch(reminder.User.externalId);
+                    await user.send(message);
+                    delivered = true;
+                } catch (e) {
+                    console.debug(`Could not DM user ${reminder.User.externalId} for reminder ${reminder.id} (likely DMs disabled):`, e);
+                }
+            }
+
+            if (!delivered) {
+                await channel.send(message);
+            }
 
             // Mark reminder as completed
             reminder.completed = true;

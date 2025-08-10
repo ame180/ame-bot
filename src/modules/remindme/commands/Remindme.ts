@@ -15,11 +15,17 @@ export const data = new SlashCommandBuilder()
         option.setName('message')
             .setDescription('Message to include with the reminder (optional)')
             .setRequired(false)
+    )
+    .addBooleanOption(option =>
+        option.setName('send_as_dm')
+            .setDescription('Deliver the reminder privately (DM) instead of in the channel (default: true)')
+            .setRequired(false)
     );
 
 export async function execute(interaction: CommandInteraction) {
     const minutes = interaction.options.get('minutes').value as number;
     const message = interaction.options.get('message')?.value as string;
+    const sendAsDM = (interaction.options.get('send_as_dm')?.value as boolean) ?? true;
 
     const pingTime = new Date();
     pingTime.setMinutes(pingTime.getMinutes() + minutes);
@@ -52,7 +58,8 @@ export async function execute(interaction: CommandInteraction) {
             userId: user.id,
             channelId: interaction.channel.id,
             message: message || null,
-            pingTime: pingTime
+            pingTime: pingTime,
+            sendAsDM: sendAsDM
         });
 
         await reminder.save();
@@ -81,7 +88,11 @@ export async function execute(interaction: CommandInteraction) {
         if (message) {
             replyMessage += ` with the message: "${message}"`;
         }
-
+        if (sendAsDM) {
+            replyMessage += ' (sent via DM)';
+        } else {
+            replyMessage += ' (posted in this channel)';
+        }
         await interaction.reply({ content: replyMessage, ephemeral: true });
     } catch (error) {
         console.error('Error creating reminder:', error);
