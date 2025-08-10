@@ -1,17 +1,17 @@
-import { ReminderModel } from '../models';
-import { client } from './ClientProvider';
-import { isGuildModuleEnabled } from '../modules/GuildModulesResolver';
-import { name as remindmeModuleName } from '../modules/remindme';
+import { ReminderModel } from '../../models';
+import type { Client } from 'discord.js';
+import { isGuildModuleEnabled } from '../GuildModulesResolver';
+import { name as remindmeModuleName } from './index';
 
 let reminderCheckInterval = null;
 
-export function startReminderService() {
+export function startReminderService(client: Client) {
     if (reminderCheckInterval) {
         return;
     }
 
     // Check for reminders every 10 seconds
-    reminderCheckInterval = setInterval(checkReminders, 10000);
+    reminderCheckInterval = setInterval(() => checkReminders(client), 10000);
     console.log('Reminder service started');
 }
 
@@ -23,7 +23,7 @@ export function stopReminderService() {
     }
 }
 
-async function checkReminders() {
+async function checkReminders(client: Client) {
     const now = new Date();
 
     // Find all reminders that are due and not completed
@@ -53,18 +53,21 @@ async function checkReminders() {
                 // Mark as completed since the module is disabled
                 reminder.completed = true;
                 await reminder.save();
+
                 continue;
             }
 
             const guild = client.guilds.cache.get(reminder.Guild.externalId);
             if (!guild) {
                 console.error(`Guild ${reminder.Guild.externalId} not found for reminder ${reminder.id}`);
+
                 continue;
             }
 
             const channel = guild.channels.cache.get(reminder.channelId);
             if (!channel || !channel.isTextBased()) {
                 console.error(`Channel ${reminder.channelId} not found or not text-based for reminder ${reminder.id}`);
+
                 continue;
             }
 

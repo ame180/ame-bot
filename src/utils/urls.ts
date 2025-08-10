@@ -1,16 +1,11 @@
-import { APP_PROTOCOL, APP_HOST } from '../config';
+
+import { config } from '../config/configLoader';
 
 export function url(path = ''): string {
-    let protocol = APP_PROTOCOL;
-    const host = APP_HOST;
-
-    if (protocol.endsWith('/')) {
-        protocol = protocol.substring(0, protocol.length - 1);
-    }
-
-    if (path.startsWith('/')) {
-        path = path.substring(1);
-    }
+    let protocol = config.APP_PROTOCOL;
+    const host = config.APP_HOST;
+    if (protocol.endsWith('/')) protocol = protocol.slice(0, -1);
+    if (path.startsWith('/')) path = path.slice(1);
 
     return `${protocol}://${host}/${path}`;
 }

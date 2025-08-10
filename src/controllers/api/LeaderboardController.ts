@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { UserModel, UserGuildModel, connection } from '../../models';
-import { calculateLevel } from '../../services/LevelCalculator';
+import { calculateLevel } from '../../modules/levels/LevelCalculator';
 import { name as LEVELS_MODULE_NAME } from '../../modules/levels';
 import { QueryTypes } from 'sequelize';
 import slugify from 'slugify';
-import { API_KEY } from '../../config';
+import { config } from '../../config/configLoader';
 import { url } from '../../utils/urls';
 
 const router = express.Router();
@@ -28,6 +28,7 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
         userGuilds.map(
             async (userGuild: typeof UserGuildModel) => {
                 const user = await userGuild.getUser();
+
                 return {
                     id: user.externalId,
                     username: user.username,
@@ -44,8 +45,9 @@ router.get('/leaderboard/:guildId', asyncHandler(async (req: Request, res: Respo
 }));
 
 router.get('/leaderboards', asyncHandler(async (req: Request, res: Response) => {
-    if (req.header('x-api-key') !== API_KEY) {
+    if (req.header('x-api-key') !== config.API_KEY) {
         res.status(401).send('Unauthorized');
+
         return;
     }
 

@@ -1,13 +1,13 @@
 import { globalCommands } from '../modules';
 import { REST, Routes } from 'discord.js';
-import { DISCORD_API_VERSION, DISCORD_CLIENT_ID, DISCORD_TOKEN } from '../config';
+import { config } from '../config/configLoader';
 import { getGuildCommands } from '../modules/GuildCommandsResolver';
 import { Command } from '../types/Command';
 import { GuildModel } from '../models';
 
 
 export async function registerCommands(guilds) {
-    const rest = new REST({ version: DISCORD_API_VERSION }).setToken(DISCORD_TOKEN);
+    const rest = new REST({ version: config.DISCORD_API_VERSION }).setToken(config.DISCORD_TOKEN);
 
     void registerGlobalCommands(rest);
     for (const guild of guilds) {
@@ -18,6 +18,7 @@ export async function registerCommands(guilds) {
         });
         if (!guildModel) {
             console.error(`Guild ${guild.id} not found in database.`);
+
             continue;
         }
         void registerGuildCommands(rest, guildModel);
@@ -30,7 +31,7 @@ export async function registerGlobalCommands(rest: REST) {
 
     console.log(`Started refreshing ${globalCommandsCount} global (/) commands.`);
     rest.put(
-        Routes.applicationCommands(DISCORD_CLIENT_ID),
+        Routes.applicationCommands(config.DISCORD_CLIENT_ID),
         {
             body: globalCommandsData
         },
@@ -49,7 +50,7 @@ export async function registerGuildCommands(rest: REST, guild) {
     console.log(`Started refreshing ${guildCommandsCount} guild (/) commands for ${guild.externalId}.`);
 
     rest.put(
-        Routes.applicationGuildCommands(DISCORD_CLIENT_ID, guild.externalId),
+        Routes.applicationGuildCommands(config.DISCORD_CLIENT_ID, guild.externalId),
         {
             body: guildCommandsData
         },

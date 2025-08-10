@@ -1,6 +1,6 @@
 import { GuildConfigModel, GuildModel } from '../../models';
-import type { Message } from 'discord.js';
-import { client } from '../../services/ClientProvider';
+import type { Message, Client, Guild, GuildBasedChannel } from 'discord.js';
+import { TextChannel, NewsChannel, ThreadChannel } from 'discord.js';
 import { isGuildModuleEnabled } from '../GuildModulesResolver';
 
 export const ReactionRolesConfigName = 'reactionRoles';
@@ -18,18 +18,18 @@ export type ReactionRolesConfig = {
     panels: Panel[]
 }
 
-export async function syncAllEnabledGuilds() {
+export async function syncAllEnabledGuilds(client: Client): Promise<void> {
     const guilds = client.guilds.cache.map(g => g.id);
     for (const guildId of guilds) {
         const guild = await GuildModel.findOne({ where: { externalId: guildId } });
         if (!guild) continue;
         const enabled = await isGuildModuleEnabled(guild, 'reactionRoles');
         if (!enabled) continue;
-        await syncGuildPanels(guild);
+        await syncGuildPanels(client, guild);
     }
 }
 
-export async function syncGuildPanels(guild) {
+export async function syncGuildPanels(client: Client, guild: typeof GuildModel.prototype): Promise<void> {
     const guildConfig = await GuildConfigModel.findOne({
         where: { guildId: guild.id, name: ReactionRolesConfigName }
     });
@@ -40,26 +40,31 @@ export async function syncGuildPanels(guild) {
 
     for (const panel of panels) {
         try {
-            const discordGuild = client.guilds.cache.get(guild.externalId);
+            const discordGuild: Guild | undefined = client.guilds.cache.get(guild.externalId);
             if (!discordGuild) continue;
-            const channel = discordGuild.channels.cache.get(panel.channelId);
+            const channel: GuildBasedChannel | undefined = discordGuild.channels.cache.get(panel.channelId);
+
             if (!channel) continue;
-            if (!channel.isTextBased()) continue;
+            if (!(
+                channel instanceof TextChannel
+                || channel instanceof NewsChannel
+                || channel instanceof ThreadChannel
+            )) {
+                continue;
+            }
 
 
             let message: Message | null = null;
             if (panel.messageId) {
                 try {
-                    const textChannel = channel as any; // channel.isTextBased() ensured
-                    message = await textChannel.messages?.fetch(panel.messageId as string) as Message;
+                    message = await channel.messages?.fetch(panel.messageId as string) as Message;
                 } catch {
                     message = null;
                 }
             }
 
             if (!message) {
-                const textChannel = channel as any; // channel.isTextBased() ensured
-                message = await textChannel.send(panel.content || '') as Message;
+                message = await channel.send(panel.content || '') as Message;
                 panel.messageId = message.id;
                 await persistConfigMessageId(guildConfig, panel.key, message.id);
             }
@@ -92,9 +97,11 @@ export function normalizeEmoji(emojiOrString: EmojiLike): string {
         const mention = key.match(/^<a?:\w+:(\d+)>$/);
         if (mention) return mention[1];
         if (/^\d{10,}$/.test(key)) return key; // custom emoji id string
+
         return key; // unicode emoji
     }
     const { id, name } = emojiOrString;
+
     return id || name || '';
 }
 
@@ -102,6 +109,7 @@ export function toReactableEmoji(emojiKey: string): string | null {
     if (!emojiKey) return null;
     const key = emojiKey.trim();
     if (!key) return null;
+
     return key;
 }
 
@@ -112,7 +120,11 @@ type GuildConfigRecord = {
     set?: (key: string, value: any) => void
 };
 
-async function persistConfigMessageId(guildConfig: GuildConfigRecord, panelKey: string, messageId: string) {
+async function persistConfigMessageId(
+    guildConfig: GuildConfigRecord,
+    panelKey: string,
+    messageId: string
+): Promise<void> {
     // Root cause: Sequelize did not detect changes to the nested JSON 'value' field, so .save() was a no-op.
     // Fix: Use .set('value', value) and .changed('value', true) to force Sequelize to persist the update.
     const value = guildConfig.value;

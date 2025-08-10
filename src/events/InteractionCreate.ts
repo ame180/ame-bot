@@ -15,6 +15,7 @@ export async function execute(interaction) {
     if (!guild) {
         console.error(`Guild ${interaction.guild.id} not found in database.`);
         interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
+
         return;
     }
 
@@ -27,6 +28,7 @@ export async function execute(interaction) {
 
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);
+
         return;
     }
 

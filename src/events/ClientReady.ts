@@ -1,12 +1,11 @@
-import { Events } from 'discord.js';
+import { Events, Client } from 'discord.js';
 import { registerCommands } from '../services/CommandRegisterer';
 import { updateGuilds } from '../services/GuildUpdater';
-import { startReminderService } from '../services/ReminderService';
-import { syncAllEnabledGuilds as syncReactionRoles } from '../modules/reactionRoles/ReactionRolesService';
+import { runModuleSetups } from '../modules';
 
 export const name = Events.ClientReady;
 export const once = true;
-export async function execute(client) {
+export async function execute(client: Client) {
     console.log(`Ready! Logged in as ${client.user.tag}`);
 
     const guilds = client.guilds.cache.map((guild) => {
@@ -20,7 +19,5 @@ export async function execute(client) {
     await updateGuilds(guilds);
 
     void registerCommands(guilds);
-    void syncReactionRoles();
-    
-    void startReminderService();
+    void runModuleSetups(client);
 }

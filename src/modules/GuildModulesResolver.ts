@@ -17,6 +17,7 @@ export async function isGuildModuleEnabled(guild, moduleName: string): Promise<b
     if (!guildConfig) return false;
 
     const config: ModulesConfig = guildConfig.value;
+
     return !!config[moduleName];
 }
 

@@ -26,6 +26,7 @@ async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifs
     if (!guild) {
         console.error(`Guild ${interaction.guild.id} not found in database.`);
         interaction.reply({ content: 'This guild is not registered!', ephemeral: true });
+
         return;
     }
 
@@ -33,6 +34,7 @@ async function handleTargetedGifCommand(interaction, commandConfig: TargetedGifs
     const command = commands[interaction.commandName];
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);
+
         return;
     }
 
