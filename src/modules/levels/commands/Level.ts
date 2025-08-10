@@ -1,6 +1,8 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { bold, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { getCommandUserGuild } from '../../../services/CommandUserGuildResolver';
 import { calculateLevel } from '../LevelCalculator';
+import { UserGuildModel } from '../../../models';
+import { Op } from 'sequelize';
 
 export const data = new SlashCommandBuilder()
     .setName('level')
@@ -21,10 +23,38 @@ export async function execute(interaction: CommandInteraction) {
         return;
     }
 
-    const { level, xpLeft, xpNeeded } = calculateLevel(userGuild.xp);
+    const totalXp = userGuild.xp;
+    const { level, xpLeft, xpNeeded } = calculateLevel(totalXp);
 
-    const message = targetUser
-        ? `${targetUser.username} is level ${level}! ${xpLeft}/${xpNeeded} XP`
-        : `You are level ${level}! ${xpLeft}/${xpNeeded} XP`;
-    await interaction.reply(message);
+    let rank = 1;
+    const higherXpCount = await UserGuildModel.count({
+        where: {
+            externalId: interaction.guildId,
+            xp: { [Op.gt]: totalXp },
+        },
+    });
+    rank = higherXpCount + 1;
+
+    // Progress bar (10 segments)
+    const segments = 10;
+    const progress = xpLeft / xpNeeded;
+    const filled = Math.max(0, Math.min(segments, Math.round(progress * segments)));
+    const bar = `${'█'.repeat(filled)}${'░'.repeat(segments - filled)}`;
+
+    const user = await userGuild.getUser();
+    const displayName = userGuild.userDisplayName || user.displayName;
+    const subjectName = targetUser ? targetUser.username : interaction.user.username;
+
+    const embed = new EmbedBuilder()
+        .setTitle('📊 Level Stats')
+        .setDescription(`${bold(displayName)}'s current progression`)
+        .addFields(
+            { name: 'User', value: subjectName, inline: true },
+            { name: 'Rank', value: `#${rank}`, inline: true },
+            { name: 'Level', value: `${level}`, inline: true },
+            { name: 'Progress', value: `${bar} ${xpLeft}/${xpNeeded} XP`, inline: false },
+        )
+        .setTimestamp();
+
+    await interaction.reply({ embeds: [embed] });
 }
