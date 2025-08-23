@@ -14,6 +14,9 @@ export default tseslint.config(
 		},
 		rules: {
 			'object-curly-spacing': ['error', 'always'],
+			'key-spacing': ['error', { beforeColon: false, afterColon: true, mode: 'strict' }],
+			'space-infix-ops': 'error',
+			'space-in-parens': ['error', 'never'],
 			'quotes': ['error', 'single', { 'avoidEscape': true }],
 			'@typescript-eslint/consistent-type-definitions': ['error', 'type'],
 			'@typescript-eslint/consistent-indexed-object-style': ['error', 'index-signature'],
@@ -29,11 +32,12 @@ export default tseslint.config(
 			]
 		}
 	},
-	{
-		ignores: [
-			'node_modules/',
-			'dist/',
-			'eslint.config.mjs'
-		],
-	}
+		{
+				ignores: [
+					'node_modules/',
+					'dist/',
+					'eslint.config.mjs',
+					'jest.config.cjs'
+				],
+		},
 );

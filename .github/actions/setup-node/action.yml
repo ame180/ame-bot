@@ -1,0 +1,20 @@
+name: 'setup-node-and-install'
+
+description: 'Copies env/config, sets up Node, installs dependencies.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Copy .env and config.json
+      run: |
+        if [ -f .env.dist ]; then cp .env.dist .env; fi
+        if [ -f config.dist.json ]; then cp config.dist.json config.json; fi
+      shell: bash
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: yarn
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      shell: bash
