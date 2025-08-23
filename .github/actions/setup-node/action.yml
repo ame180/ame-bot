@@ -1,12 +1,10 @@
 name: 'setup-node-and-install'
 
-description: 'Checks out code, copies env/config, sets up Node, installs dependencies.'
+description: 'Copies env/config, sets up Node, installs dependencies.'
 
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Copy .env and config.json
       run: |
         if [ -f .env.dist ]; then cp .env.dist .env; fi
