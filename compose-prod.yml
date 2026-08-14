@@ -13,6 +13,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    restart: unless-stopped
 
   bot:
     image: ghcr.io/ame180/amebot-node:latest
@@ -25,6 +26,7 @@ services:
       - ./.env:/app/.env
     depends_on:
       - node
+    restart: unless-stopped
 
   nginx:
     image: ghcr.io/ame180/nginx-node:latest
@@ -35,6 +37,7 @@ services:
       - node
     expose:
       - "80"
+    restart: unless-stopped
 
   mysql:
     image: ghcr.io/ame180/mysql:latest
@@ -47,6 +50,7 @@ services:
       - "3306"
     volumes:
       - mysql:/var/lib/mysql
+    restart: unless-stopped
 
 volumes:
   mysql:
