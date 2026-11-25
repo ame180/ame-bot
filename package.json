@@ -1,21 +1,25 @@
 {
   "name": "ame-bot",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal Discord bot: XP levels, reaction roles, reminders and more. discord.js, Express, MySQL.",
+  "author": "Ame",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ame180/ame-bot.git"
+  },
   "scripts": {
-  "build": "rm -rf dist && tsc -p tsconfig.build.json",
-  "dev": "yarn build && yarn start",
-  "dev:bot": "yarn build && yarn bot",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "dev": "yarn build && yarn start",
+    "dev:bot": "yarn build && yarn bot",
     "bot": "node dist/bot.js",
     "start": "node dist/index.js",
     "migrate": "sequelize-cli db:migrate",
     "rollback": "sequelize-cli db:migrate:undo",
-  "lint": "eslint --fix",
-  "test": "jest"
+    "lint": "eslint --fix",
+    "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
