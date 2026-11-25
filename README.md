@@ -15,9 +15,8 @@ My personal Discord bot. The features I wanted usually meant running several dif
 ## Development
 
 1. Copy `.env.dist` to `.env` and `config.dist.json` to `config.json`, then fill in the Discord values.
-2. `docker login ghcr.io` (the MySQL image lives there).
-3. `docker compose up -d` starts MySQL, nginx and a Node container that installs dependencies, builds and runs migrations.
-4. `docker compose exec node yarn dev:bot` runs the bot; `docker compose exec node yarn dev` runs the API.
+2. `docker compose up -d` starts MySQL, nginx and a Node container that installs dependencies, builds and runs migrations.
+3. `docker compose exec node yarn dev:bot` runs the bot; `docker compose exec node yarn dev` runs the API.
 
 Quality gates: `yarn lint`, `yarn test`, `yarn build`.
 
